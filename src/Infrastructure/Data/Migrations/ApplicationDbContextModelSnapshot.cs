@@ -24,11 +24,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.HeavyUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -75,11 +72,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.Transaction", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -117,8 +111,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                     b.Property<string>("TransactionNum")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UnitId")
-                        .HasColumnType("int");
+                    b.Property<string>("UnitId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");

@@ -38,7 +38,7 @@ public class HeavyUnits : EndpointGroupBase
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
 
-    public async Task<IResult> UpdateHeavyUnit(ISender sender, int id, UpdateHeavyUnitCommand command)
+    public async Task<IResult> UpdateHeavyUnit(ISender sender, string id, UpdateHeavyUnitCommand command)
     {
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
         Response response = new Response
@@ -52,7 +52,7 @@ public class HeavyUnits : EndpointGroupBase
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
 
-    public async Task<IResult> DeleteHeavyUnit(ISender sender, int id)
+    public async Task<IResult> DeleteHeavyUnit(ISender sender, string id)
     {
         await sender.Send(new DeleteHeavyUnitCommand(id));
         return Results.NoContent();

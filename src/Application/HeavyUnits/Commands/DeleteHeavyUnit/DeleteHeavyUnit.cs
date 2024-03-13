@@ -2,7 +2,7 @@ using BuyDozerBeMain.Application.Common.Interfaces;
 
 namespace BuyDozerBeMain.Application.HeavyUnits.Commands.DeleteHeavyUnit;
 
-public record DeleteHeavyUnitCommand(int Id) : IRequest;
+public record DeleteHeavyUnitCommand(string Id) : IRequest;
 
 public class DeleteHeavyUnitCommandHandler : IRequestHandler<DeleteHeavyUnitCommand>
 {

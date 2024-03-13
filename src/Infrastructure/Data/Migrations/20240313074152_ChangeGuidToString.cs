@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ChangeGuidToString : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CompanyUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PositionUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -51,13 +53,18 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoLists",
+                name: "HeavyUnits",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Colour_Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    NameUnit = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    TypeUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DescUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgBrand = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PriceBuyUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PriceRentUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    QtyUnit = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -65,7 +72,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoLists", x => x.Id);
+                    table.PrimaryKey("PK_HeavyUnits", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,8 +121,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -159,8 +166,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -175,17 +182,20 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoItems",
+                name: "Transactions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ListId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Priority = table.Column<int>(type: "int", nullable: false),
-                    Reminder = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Done = table.Column<bool>(type: "bit", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransactionNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnitId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverHp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QtyTransaction = table.Column<int>(type: "int", nullable: false),
+                    TotalPriceTransaction = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DateTransaction = table.Column<DateOnly>(type: "date", nullable: false),
+                    StatusTransaction = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -193,11 +203,16 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoItems", x => x.Id);
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TodoItems_TodoLists_ListId",
-                        column: x => x.ListId,
-                        principalTable: "TodoLists",
+                        name: "FK_Transactions_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Transactions_HeavyUnits_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "HeavyUnits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -242,9 +257,14 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TodoItems_ListId",
-                table: "TodoItems",
-                column: "ListId");
+                name: "IX_Transactions_UnitId",
+                table: "Transactions",
+                column: "UnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_UserId",
+                table: "Transactions",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -266,7 +286,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TodoItems");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -275,7 +295,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "TodoLists");
+                name: "HeavyUnits");
         }
     }
 }
