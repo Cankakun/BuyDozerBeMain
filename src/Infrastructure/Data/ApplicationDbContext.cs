@@ -17,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>, IApplicationD
     public DbSet<HeavyUnit> HeavyUnits => Set<HeavyUnit>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<DetailRent> DetailRents => Set<DetailRent>();
+    public DbSet<DetailBuy> DetailBuys => Set<DetailBuy>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
