@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240313065029_AddingTransaction")]
-    partial class AddingTransaction
+    [Migration("20240313074152_ChangeGuidToString")]
+    partial class ChangeGuidToString
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.HeavyUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -78,11 +75,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.Transaction", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -120,8 +114,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                     b.Property<string>("TransactionNum")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UnitId")
-                        .HasColumnType("int");
+                    b.Property<string>("UnitId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");

@@ -3,7 +3,7 @@ using BuyDozerBeMain.Domain.Entities;
 
 namespace BuyDozerBeMain.Application.HeavyUnits.Commands.CreateHeavyUnit;
 
-public record CreateHeavyUnitCommand : IRequest<int>
+public record CreateHeavyUnitCommand : IRequest<string>
 {
     public string? NameUnit { get; init; }
     public string? TypeUnit { get; init; }
@@ -15,7 +15,7 @@ public record CreateHeavyUnitCommand : IRequest<int>
     public int QtyUnit { get; init; }
 }
 
-public class CreateHeavyUnitCommandHandler : IRequestHandler<CreateHeavyUnitCommand, int>
+public class CreateHeavyUnitCommandHandler : IRequestHandler<CreateHeavyUnitCommand, string>
 {
     private readonly IApplicationDbContext _context;
 
@@ -24,7 +24,7 @@ public class CreateHeavyUnitCommandHandler : IRequestHandler<CreateHeavyUnitComm
         _context = context;
     }
 
-    public async Task<int> Handle(CreateHeavyUnitCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateHeavyUnitCommand request, CancellationToken cancellationToken)
     {
         var entity = new HeavyUnit
         {

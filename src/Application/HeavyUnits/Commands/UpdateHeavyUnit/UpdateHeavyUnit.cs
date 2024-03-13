@@ -4,7 +4,7 @@ namespace BuyDozerBeMain.Application.HeavyUnits.Commands.UpdateHeavyUnit;
 
 public record UpdateHeavyUnitCommand : IRequest
 {
-    public required int Id { get; init; }
+    public required string Id { get; init; }
     public string? NameUnit { get; init; }
     public string? TypeUnit { get; init; }
     public string? DescUnit { get; init; }
