@@ -7,6 +7,29 @@
   },
   "paths": {
     "/api/HeavyUnits": {
+      "get": {
+        "tags": [
+          "HeavyUnits"
+        ],
+        "operationId": "GetAllHeavyUnit",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HeavyUnitVm"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
       "post": {
         "tags": [
           "HeavyUnits"
@@ -519,6 +542,60 @@
   },
   "components": {
     "schemas": {
+      "HeavyUnitVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HeavyUnitDTO"
+            }
+          }
+        }
+      },
+      "HeavyUnitDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "descUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgBrand": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceBuyUnit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "priceRentUnit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "qtyUnit": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "CreateHeavyUnitCommand": {
         "type": "object",
         "additionalProperties": false,

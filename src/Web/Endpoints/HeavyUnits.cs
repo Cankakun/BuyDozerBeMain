@@ -1,10 +1,11 @@
 using System.Net.Http.Headers;
 using BuyDozerBeMain.Domain.Entities;
-using BuyDozerBeMain.Application.Common.Models;
+// using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.HeavyUnits.Commands.CreateHeavyUnit;
 using BuyDozerBeMain.Application.HeavyUnits.Commands.UpdateHeavyUnit;
 using System.Text.Json;
 using BuyDozerBeMain.Application.HeavyUnits.Commands.DeleteHeavyUnit;
+using BuyDozerBeMain.Application.HeavyUnits.Queries.GetHeavyUnit;
 
 namespace BuyDozerBeMain.Web.Endpoints;
 
@@ -14,16 +15,16 @@ public class HeavyUnits : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
-            // .MapGet(GetAllHeavyUnit)
+            .MapGet(GetAllHeavyUnit)
             .MapPost(CreateHeavyUnit)
             .MapPut(UpdateHeavyUnit, "{id}")
             .MapDelete(DeleteHeavyUnit, "{id}");
     }
 
-    // public async Task<HeavyUnitVm> GetAllHeavyUnit(ISender sender)
-    // {
-    //     return await sender.Send(new GetHeavyUnitsQuery());
-    // }
+    public async Task<HeavyUnitVm> GetAllHeavyUnit(ISender sender)
+    {
+        return await sender.Send(new GetHeavyUnitsQuery());
+    }
 
     public async Task<IResult> CreateHeavyUnit(ISender sender, CreateHeavyUnitCommand command)
     {
