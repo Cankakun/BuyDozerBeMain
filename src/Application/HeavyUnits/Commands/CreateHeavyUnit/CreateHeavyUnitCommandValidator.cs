@@ -5,7 +5,12 @@ public class CreateHeavyUnitCommandValidator : AbstractValidator<CreateHeavyUnit
     public CreateHeavyUnitCommandValidator()
     {
         RuleFor(v => v.NameUnit)
-            .MaximumLength(200)
+            .MaximumLength(50)
+            .NotEmpty();
+        RuleFor(v => v.TypeUnit)
+            .MaximumLength(25)
+            .NotEmpty();
+        RuleFor(v => v.QtyUnit)
             .NotEmpty();
 
     }
