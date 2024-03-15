@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity>, IApplicationD
     public DbSet<DetailRent> DetailRents => Set<DetailRent>();
     public DbSet<DetailBuy> DetailBuys => Set<DetailBuy>();
     public DbSet<PriceListRent> PriceListRents => Set<PriceListRent>();
+    public DbSet<UserEntity> UserEntitys => Set<UserEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
