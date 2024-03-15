@@ -9,6 +9,7 @@ public interface IApplicationDbContext
     DbSet<DetailRent> DetailRents { get; }
     DbSet<DetailBuy> DetailBuys { get; }
     DbSet<PriceListRent> PriceListRents { get; }
+    DbSet<UserEntity> UserEntitys { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

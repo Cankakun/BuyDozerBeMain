@@ -511,6 +511,47 @@
         ]
       }
     },
+    "/api/UserEntitys/UpdateCompanyAndPositionUser/{id}": {
+      "put": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "UpdateUserEntity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserEntityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/WeatherForecasts": {
       "get": {
         "tags": [
@@ -895,6 +936,23 @@
             "nullable": true
           },
           "oldPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateUserEntityCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "companyUser": {
+            "type": "string",
+            "nullable": true
+          },
+          "positionUser": {
             "type": "string",
             "nullable": true
           }
