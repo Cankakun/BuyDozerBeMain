@@ -511,6 +511,26 @@
         ]
       }
     },
+    "/api/UserEntitys": {
+      "get": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "GetAllUserEntity",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntityVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/UserEntitys/UpdateCompanyAndPositionUser/{id}": {
       "put": {
         "tags": [
@@ -544,12 +564,7 @@
           "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/api/WeatherForecasts": {
@@ -936,6 +951,44 @@
             "nullable": true
           },
           "oldPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UserEntityVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserEntityDTO"
+            }
+          }
+        }
+      },
+      "UserEntityDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyUser": {
+            "type": "string",
+            "nullable": true
+          },
+          "positionUser": {
             "type": "string",
             "nullable": true
           }
