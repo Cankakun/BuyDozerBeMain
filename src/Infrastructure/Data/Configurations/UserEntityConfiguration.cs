@@ -9,11 +9,9 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.Property(t => t.CompanyUser)
-            .HasMaxLength(25)
-            .IsRequired();
+            .HasMaxLength(25);
         builder.Property(t => t.PositionUser)
-            .HasMaxLength(50)
-            .IsRequired();
+            .HasMaxLength(50);
         builder.Property(t => t.UserName)
             .HasMaxLength(50)
             .IsRequired();
@@ -27,8 +25,6 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .HasMaxLength(60)
             .IsRequired();
         builder.Property(t => t.PhoneNumber)
-            .HasMaxLength(15)
-            .IsRequired();
-
+            .HasMaxLength(15);
     }
 }
