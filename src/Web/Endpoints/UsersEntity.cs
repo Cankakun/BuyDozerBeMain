@@ -1,5 +1,8 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
+using BuyDozerBeMain.Application.Common.Models;
+using BuyDozerBeMain.Application.UserEntitys.Commands.DeleteUserEntity;
+
 // using BuyDozerBeMain.Application.UserEntitys.Commands.CreateUserEntity;
 using BuyDozerBeMain.Application.UserEntitys.Commands.UpdateUserEntity;
 using BuyDozerBeMain.Application.UserEntitys.Queries.GetUserEntity;
@@ -33,9 +36,22 @@ public class UserEntitys : EndpointGroupBase
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
 
-    public async Task<UserEntityVm> GetAllUserEntity(ISender sender)
+    public async Task<PaginatedList<UserEntityDTO>> GetAllUserEntity(ISender sender, [AsParameters] GetUserEntitysQuery query)
     {
-        return await sender.Send(new GetUserEntitysQuery());
+        return await sender.Send(query);
+    }
+
+    public async Task<IResult> DeleteUserEntity(ISender sender, string id)
+    {
+        await sender.Send(new DeleteUserEntityCommand(id));
+        MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
+        Response response = new Response
+        {
+            Status = 200,
+            Message = "success",
+            Data = "Data dengan ID " + id + " sukses dihapus"
+        };
+        return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
 
     // public async Task<IResult> CreateUserEntity(ISender sender, CreateUserEntityCommand command)

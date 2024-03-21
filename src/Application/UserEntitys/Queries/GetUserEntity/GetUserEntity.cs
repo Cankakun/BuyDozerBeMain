@@ -1,11 +1,18 @@
 using BuyDozerBeMain.Application.Common.Interfaces;
+using BuyDozerBeMain.Application.Common.Mappings;
+using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.UserEntitys.Queries.GetUserEntity;
 
 [Authorize]
-public record GetUserEntitysQuery : IRequest<UserEntityVm>;
-public class GetUserEntitysQueryHandler : IRequestHandler<GetUserEntitysQuery, UserEntityVm>
+public record GetUserEntitysQuery : IRequest<PaginatedList<UserEntityDTO>>
+{
+    public string? ParameterName { get; init; }
+    public int PageNumber { get; init; } = 1;
+    public int PageSize { get; init; } = 10;
+};
+public class GetUserEntitysQueryHandler : IRequestHandler<GetUserEntitysQuery, PaginatedList<UserEntityDTO>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -16,15 +23,13 @@ public class GetUserEntitysQueryHandler : IRequestHandler<GetUserEntitysQuery, U
         _mapper = mapper;
     }
 
-    public async Task<UserEntityVm> Handle(GetUserEntitysQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<UserEntityDTO>> Handle(GetUserEntitysQuery request, CancellationToken cancellationToken)
     {
-        return new UserEntityVm
-        {
-            Data = await _context.UserEntitys
+        return await _context.UserEntitys
                 .AsNoTracking()
                 .ProjectTo<UserEntityDTO>(_mapper.ConfigurationProvider)
+                .Where(x => EF.Functions.Like(x.UserName, request.ParameterName))
                 .OrderBy(t => t.UserName)
-                .ToListAsync(cancellationToken)
-        };
+                .PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }

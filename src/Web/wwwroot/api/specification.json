@@ -12,13 +12,62 @@
           "HeavyUnits"
         ],
         "operationId": "GetAllHeavyUnit",
+        "parameters": [
+          {
+            "name": "ParameterUnit",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PriceRent",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PriceBuy",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HeavyUnitVm"
+                  "$ref": "#/components/schemas/PaginatedListOfHeavyUnitDTO"
                 }
               }
             }
@@ -517,13 +566,44 @@
           "UserEntitys"
         ],
         "operationId": "GetAllUserEntity",
+        "parameters": [
+          {
+            "name": "ParameterName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserEntityVm"
+                  "$ref": "#/components/schemas/PaginatedListOfUserEntityDTO"
                 }
               }
             }
@@ -598,15 +678,33 @@
   },
   "components": {
     "schemas": {
-      "HeavyUnitVm": {
+      "PaginatedListOfHeavyUnitDTO": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "data": {
+          "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/HeavyUnitDTO"
             }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
           }
         }
       },
@@ -956,15 +1054,33 @@
           }
         }
       },
-      "UserEntityVm": {
+      "PaginatedListOfUserEntityDTO": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "data": {
+          "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UserEntityDTO"
             }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
           }
         }
       },
@@ -1000,6 +1116,14 @@
         "properties": {
           "id": {
             "type": "string"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
           },
           "companyUser": {
             "type": "string",

@@ -5,6 +5,8 @@ namespace BuyDozerBeMain.Application.UserEntitys.Commands.UpdateUserEntity;
 public record UpdateUserEntityCommand : IRequest
 {
     public required string Id { get; init; }
+    public string? UserName { get; init; }
+    public string? Email { get; init; }
     public string? CompanyUser { get; init; }
     public string? PositionUser { get; init; }
 }
@@ -25,6 +27,8 @@ public class UpdateUserEntityCommandHandler : IRequestHandler<UpdateUserEntityCo
 
         Guard.Against.NotFound(request.Id, entity);
 
+        entity.UserName = request.UserName;
+        entity.Email = request.Email;
         entity.CompanyUser = request.CompanyUser;
         entity.PositionUser = request.PositionUser;
 
