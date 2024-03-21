@@ -6,6 +6,7 @@ using BuyDozerBeMain.Application.HeavyUnits.Commands.UpdateHeavyUnit;
 using System.Text.Json;
 using BuyDozerBeMain.Application.HeavyUnits.Commands.DeleteHeavyUnit;
 using BuyDozerBeMain.Application.HeavyUnits.Queries.GetHeavyUnit;
+using BuyDozerBeMain.Application.Common.Models;
 
 namespace BuyDozerBeMain.Web.Endpoints;
 
@@ -21,9 +22,9 @@ public class HeavyUnits : EndpointGroupBase
             .MapDelete(DeleteHeavyUnit, "{id}");
     }
 
-    public async Task<HeavyUnitVm> GetAllHeavyUnit(ISender sender)
+    public async Task<PaginatedList<HeavyUnitDTO>> GetAllHeavyUnit(ISender sender, [AsParameters] GetHeavyUnitsQuery query)
     {
-        return await sender.Send(new GetHeavyUnitsQuery());
+        return await sender.Send(query);
     }
 
     public async Task<IResult> CreateHeavyUnit(ISender sender, CreateHeavyUnitCommand command)
