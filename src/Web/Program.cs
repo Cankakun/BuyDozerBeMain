@@ -1,4 +1,5 @@
 using BuyDozerBeMain.Infrastructure.Data;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,13 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebServices();
 
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build => {
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
+
+app.UseCors("corspolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,6 +52,13 @@ app.UseExceptionHandler(options => { });
 app.Map("/", () => Results.Redirect("/api"));
 
 app.MapEndpoints();
+
+// app.UseCors(options => options
+//     .WithOrigins()
+//     .WithOrigins("AllowAllOrigins")
+//     .WithHeaders(HeaderNames.ContentType)
+//     .WithMethods("GET", "POST", "PUT", "DELETE"))
+//     ;
 
 app.Run();
 
