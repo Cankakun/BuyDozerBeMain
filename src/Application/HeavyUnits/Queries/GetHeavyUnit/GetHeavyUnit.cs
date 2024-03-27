@@ -32,8 +32,8 @@ public class GetHeavyUnitsQueryHandler : IRequestHandler<GetHeavyUnitsQuery, Pag
         {
             return await _context.HeavyUnits
                 .AsNoTracking()
-                // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                .Where(x => EF.Functions.Like(x.TypeUnit, request.ParameterUnit))
+                .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
+                // .Where(x => EF.Functions.Like(x.TypeUnit, request.ParameterUnit))
                 .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
                 .OrderBy(t => t.PriceRentUnit)
                 .OrderBy(t => t.PriceBuyUnit)
@@ -45,8 +45,8 @@ public class GetHeavyUnitsQueryHandler : IRequestHandler<GetHeavyUnitsQuery, Pag
         {
             return await _context.HeavyUnits
                 .AsNoTracking()
-                // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                .Where(x => EF.Functions.Like(x.TypeUnit, request.ParameterUnit))
+                .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
+                // .Where(x => EF.Functions.Like(x.TypeUnit, request.ParameterUnit))
                 .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
                 .OrderByDescending(t => t.PriceRentUnit)
                 .OrderByDescending(t => t.PriceBuyUnit)

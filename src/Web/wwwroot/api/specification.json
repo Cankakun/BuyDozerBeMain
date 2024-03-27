@@ -611,6 +611,99 @@
         }
       }
     },
+    "/api/UserEntitys/isAdmin": {
+      "get": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "GetIsAdmin",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserEntitys/NewAdmin": {
+      "post": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "CreateNewAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewAdminCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/UserEntitys/CustomLogin": {
+      "post": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "LoginUserEntity",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserEntityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/UserEntitys/UpdateCompanyAndPositionUser/{id}": {
       "put": {
         "tags": [
@@ -640,6 +733,30 @@
           "required": true,
           "x-position": 2
         },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/UserEntitys/{id}": {
+      "delete": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "DeleteUserEntity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": ""
@@ -1107,6 +1224,44 @@
           "positionUser": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "nullable": true
+          }
+        }
+      },
+      "CreateNewAdminCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginUserEntityCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         }
       },
