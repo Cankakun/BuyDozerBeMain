@@ -679,7 +679,32 @@
         }
       }
     },
-    "/api/UserEntitys/CustomLogin": {
+    "/api/UserEntitys/Register": {
+      "post": {
+        "tags": [
+          "UserEntitys"
+        ],
+        "operationId": "RegisterUserEntity",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserEntityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/UserEntitys/Login": {
       "post": {
         "tags": [
           "UserEntitys"
@@ -1249,6 +1274,27 @@
         "additionalProperties": false,
         "properties": {
           "id": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterUserEntityCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "companyUser": {
+            "type": "string"
+          },
+          "positionUser": {
             "type": "string"
           }
         }
