@@ -4,6 +4,8 @@ using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.UserEntitys.Commands.CreateNewAdmin;
 using BuyDozerBeMain.Application.UserEntitys.Commands.DeleteUserEntity;
 using BuyDozerBeMain.Application.UserEntitys.Commands.LoginUserEntity;
+using BuyDozerBeMain.Application.UserEntitys.Commands.RegisterUserEntity;
+
 
 
 // using BuyDozerBeMain.Application.UserEntitys.Commands.CreateUserEntity;
@@ -24,7 +26,8 @@ public class UserEntitys : EndpointGroupBase
             .MapGet(GetAllUserEntity)
             .MapGet(GetIsAdmin, "isAdmin")
             .MapPost(CreateNewAdmin, "NewAdmin")
-            .MapPost(LoginUserEntity, "CustomLogin")
+            .MapPost(RegisterUserEntity, "Register")
+            .MapPost(LoginUserEntity, "Login")
             .MapPut(UpdateUserEntity, "UpdateCompanyAndPositionUser/{id}")
             .MapDelete(DeleteUserEntity, "{id}");
     }
@@ -66,6 +69,11 @@ public class UserEntitys : EndpointGroupBase
         //     Data = result
         // };
         // if (id != command.Id) return Results.BadRequest();
+        return Results.Content(result, "application/json");
+    }
+    public async Task<IResult> RegisterUserEntity(ISender sender, [FromBody] RegisterUserEntityCommand command)
+    {
+        var result = await sender.Send(command);
         return Results.Content(result, "application/json");
     }
 
