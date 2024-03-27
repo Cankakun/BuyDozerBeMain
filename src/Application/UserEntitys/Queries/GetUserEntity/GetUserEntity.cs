@@ -5,7 +5,7 @@ using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.UserEntitys.Queries.GetUserEntity;
 
-[Authorize]
+[Authorize(Roles = "Administrator")]
 public record GetUserEntitysQuery : IRequest<PaginatedList<UserEntityDTO>>
 {
     public string? ParameterName { get; init; }

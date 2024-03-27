@@ -12,5 +12,6 @@ public class Transaction : BaseAuditableEntity
     public decimal TotalPriceTransaction { get; set; }
     public DateOnly DateTransaction { get; set; }
     public int StatusTransaction { get; set; } = 1;
+    public IList<DetailRent> DetailRents { get; private set; } = new List<DetailRent>();
 
 }
