@@ -9,16 +9,14 @@ builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebServices();
-builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
-{
+
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build => {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
-
 
 var app = builder.Build();
 
 app.UseCors("corspolicy");
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,13 +53,12 @@ app.Map("/", () => Results.Redirect("/api"));
 
 app.MapEndpoints();
 
-
 // app.UseCors(options => options
-//     // .WithOrigins("http://localhost:3000")
-//     .WithOrigins("*")
+//     .WithOrigins()
+//     .WithOrigins("AllowAllOrigins")
 //     .WithHeaders(HeaderNames.ContentType)
 //     .WithMethods("GET", "POST", "PUT", "DELETE"))
-//     ;
+//     ;
 
 app.Run();
 

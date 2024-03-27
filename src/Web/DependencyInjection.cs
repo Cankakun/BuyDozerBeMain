@@ -26,6 +26,7 @@ public static class DependencyInjection
 
         // Konfigurasi lainnya
     }
+
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
         services.AddDatabaseDeveloperPageExceptionFilter();
