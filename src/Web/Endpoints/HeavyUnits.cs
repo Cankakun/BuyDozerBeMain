@@ -1,6 +1,5 @@
 using System.Net.Http.Headers;
 using BuyDozerBeMain.Domain.Entities;
-// using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.HeavyUnits.Commands.CreateHeavyUnit;
 using BuyDozerBeMain.Application.HeavyUnits.Commands.UpdateHeavyUnit;
 using System.Text.Json;
@@ -15,7 +14,7 @@ public class HeavyUnits : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization()
+            .AllowAnonymous()
             .MapGet(GetAllHeavyUnit)
             .MapPost(CreateHeavyUnit)
             .MapPut(UpdateHeavyUnit, "{id}")

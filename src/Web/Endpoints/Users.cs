@@ -1,5 +1,4 @@
 ﻿using BuyDozerBeMain.Domain.Entities;
-using BuyDozerBeMain.Infrastructure.Identity;
 
 namespace BuyDozerBeMain.Web.Endpoints;
 

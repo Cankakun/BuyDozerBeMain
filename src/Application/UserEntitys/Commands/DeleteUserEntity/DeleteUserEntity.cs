@@ -1,6 +1,8 @@
 using BuyDozerBeMain.Application.Common.Interfaces;
+using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.UserEntitys.Commands.DeleteUserEntity;
+[Authorize(Roles = "Administrator")]
 
 public record DeleteUserEntityCommand(string Id) : IRequest;
 

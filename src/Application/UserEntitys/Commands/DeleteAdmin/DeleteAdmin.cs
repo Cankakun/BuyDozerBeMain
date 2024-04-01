@@ -1,7 +1,9 @@
+using BuyDozerBeMain.Application.Common.Security;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace BuyDozerBeMain.Application.UserEntitys.Commands.DeleteAdmin;
+[Authorize(Roles = "Administrator")]
 
 public record DeleteAdminCommand(string Id) : IRequest;
 

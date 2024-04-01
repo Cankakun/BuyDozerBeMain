@@ -1,6 +1,8 @@
 using BuyDozerBeMain.Application.Common.Interfaces;
+using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.HeavyUnits.Commands.DeleteHeavyUnit;
+[Authorize(Roles = "Administrator")]
 
 public record DeleteHeavyUnitCommand(string Id) : IRequest;
 

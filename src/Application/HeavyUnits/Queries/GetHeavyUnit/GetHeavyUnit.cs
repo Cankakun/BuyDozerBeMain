@@ -1,12 +1,8 @@
-using System.ComponentModel;
 using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Mappings;
 using BuyDozerBeMain.Application.Common.Models;
-using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.HeavyUnits.Queries.GetHeavyUnit;
-
-[Authorize]
 public record GetHeavyUnitsQuery : IRequest<PaginatedList<HeavyUnitDTO>>
 {
     public string? ParameterUnit { get; init; }
