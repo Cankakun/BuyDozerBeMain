@@ -1,8 +1,5 @@
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 using BuyDozerBeMain.Domain.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 

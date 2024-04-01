@@ -1,8 +1,9 @@
 using BuyDozerBeMain.Application.Common.Interfaces;
+using BuyDozerBeMain.Application.Common.Security;
 using BuyDozerBeMain.Domain.Entities;
 
 namespace BuyDozerBeMain.Application.HeavyUnits.Commands.CreateHeavyUnit;
-
+[Authorize(Roles = "Administrator")]
 public record CreateHeavyUnitCommand : IRequest<string>
 {
     public string? NameUnit { get; init; }

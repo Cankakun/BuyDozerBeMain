@@ -167,6 +167,36 @@
         ]
       }
     },
+    "/api/TransactionDetailRents": {
+      "post": {
+        "tags": [
+          "TransactionDetailRents"
+        ],
+        "operationId": "CreateTransactionDetailRent",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionDetailRentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/Users/register": {
       "post": {
         "tags": [
@@ -959,6 +989,47 @@
           "qtyUnit": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "CreateTransactionDetailRentCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unitId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "receiverName": {
+            "type": "string"
+          },
+          "receiverHp": {
+            "type": "string"
+          },
+          "receiverAddress": {
+            "type": "string"
+          },
+          "qtyTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateTransaction": {
+            "type": "string",
+            "format": "date"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateRent": {
+            "type": "string",
+            "format": "date"
+          },
+          "dateReturn": {
+            "type": "string",
+            "format": "date"
           }
         }
       },
