@@ -1,4 +1,6 @@
 using System.Net.Http.Json;
+using System.Text.Json;
+using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
@@ -31,22 +33,42 @@ public class LoginUserEntityCommandHandler : IRequestHandler<LoginUserEntityComm
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user != null)
         {
-            bool isAdmin = await _userManager.IsInRoleAsync(user, "administrator");
-            var client = new HttpClient();
-            var response = await client.PostAsJsonAsync("https://localhost:5001/api/Users/login", login);
-            string result = response.Content.ReadAsStringAsync().Result;
-            JObject jsonResult = JObject.Parse(result);
-            jsonResult.Add("UserId", user?.Id);
-            jsonResult.Add("UserName", user?.UserName);
-            jsonResult.Add("Email", user?.Email);
-            jsonResult.Add("Password", request.Password);
-            jsonResult.Add("IsAdmin", isAdmin);
-            var jsonString = jsonResult.ToString();
-            return jsonString;
+            var validCredentials = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (validCredentials == true)
+            {
+                bool isAdmin = await _userManager.IsInRoleAsync(user, "administrator");
+                var client = new HttpClient();
+                var response = await client.PostAsJsonAsync("https://localhost:5001/api/Users/login", login);
+                string result = response.Content.ReadAsStringAsync().Result;
+                JObject jsonResult = JObject.Parse(result);
+                jsonResult.Add("UserId", user?.Id);
+                jsonResult.Add("UserName", user?.UserName);
+                jsonResult.Add("Email", user?.Email);
+                jsonResult.Add("Password", request.Password);
+                jsonResult.Add("IsAdmin", isAdmin);
+                var jsonString = jsonResult.ToString();
+                return jsonString;
+            }
+            else
+            {
+                Response response = new Response
+                {
+                    Status = 404,
+                    Message = "Not Found",
+                    Data = "Password tidak cocok"
+                };
+                return JsonSerializer.Serialize(response);
+            }
         }
         else
         {
-            return "User Tidak Ditemukan";
+            Response response = new Response
+            {
+                Status = 404,
+                Message = "Not Found",
+                Data = "Email tidak ditemukan"
+            };
+            return JsonSerializer.Serialize(response); ;
         }
 
     }

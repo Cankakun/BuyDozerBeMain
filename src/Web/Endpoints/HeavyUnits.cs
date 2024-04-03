@@ -15,10 +15,10 @@ public class HeavyUnits : EndpointGroupBase
     {
         app.MapGroup(this)
             .AllowAnonymous()
-            .MapGet(GetAllHeavyUnit)
-            .MapPost(CreateHeavyUnit)
-            .MapPut(UpdateHeavyUnit, "{id}")
-            .MapDelete(DeleteHeavyUnit, "{id}");
+            .MapGet(GetAllHeavyUnit, "GetHeavyUnit")
+            .MapPost(CreateHeavyUnit, "CreateHeavyUnit")
+            .MapPut(UpdateHeavyUnit, "UpdateHeavyUnit/{id}")
+            .MapDelete(DeleteHeavyUnit, "DeleteHeavyUnit/{id}");
     }
 
     public async Task<PaginatedList<HeavyUnitDTO>> GetAllHeavyUnit(ISender sender, [AsParameters] GetHeavyUnitsQuery query)

@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/HeavyUnits": {
+    "/api/HeavyUnits/GetHeavyUnit": {
       "get": {
         "tags": [
           "HeavyUnits"
@@ -63,13 +63,10 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
+        }
+      }
+    },
+    "/api/HeavyUnits/CreateHeavyUnit": {
       "post": {
         "tags": [
           "HeavyUnits"
@@ -91,15 +88,10 @@
           "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
-    "/api/HeavyUnits/{id}": {
+    "/api/HeavyUnits/UpdateHeavyUnit/{id}": {
       "put": {
         "tags": [
           "HeavyUnits"
@@ -132,13 +124,10 @@
           "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
+        }
+      }
+    },
+    "/api/HeavyUnits/DeleteHeavyUnit/{id}": {
       "delete": {
         "tags": [
           "HeavyUnits"
@@ -159,15 +148,60 @@
           "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
-    "/api/TransactionDetailRents": {
+    "/api/LoginRegisters/Register": {
+      "post": {
+        "tags": [
+          "LoginRegisters"
+        ],
+        "operationId": "RegisterUserEntity",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserEntityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/LoginRegisters/Login": {
+      "post": {
+        "tags": [
+          "LoginRegisters"
+        ],
+        "operationId": "LoginUserEntity",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserEntityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/TransactionDetailRents/CreateTransactionDetailRent": {
       "post": {
         "tags": [
           "TransactionDetailRents"
@@ -185,6 +219,76 @@
           "required": true,
           "x-position": 1
         },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionDetailRents/UpdateTransactionDetailRent/{id}": {
+      "put": {
+        "tags": [
+          "TransactionDetailRents"
+        ],
+        "operationId": "UpdateTransactionDetailRent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusTransactionDetailRentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionDetailRents/DeleteTransactionDetailRent/{id}": {
+      "delete": {
+        "tags": [
+          "TransactionDetailRents"
+        ],
+        "operationId": "DeleteTransactionDetailRent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": ""
@@ -581,7 +685,7 @@
         ]
       }
     },
-    "/api/UserEntitys": {
+    "/api/UserEntitys/GetUserEntity": {
       "get": {
         "tags": [
           "UserEntitys"
@@ -629,42 +733,15 @@
               }
             }
           }
-        }
-      }
-    },
-    "/api/UserEntitys/isAdmin": {
-      "get": {
-        "tags": [
-          "UserEntitys"
-        ],
-        "operationId": "GetIsAdmin",
-        "parameters": [
+        },
+        "security": [
           {
-            "name": "email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
+            "JWT": []
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          }
-        }
+        ]
       }
     },
-    "/api/UserEntitys/NewAdmin": {
+    "/api/UserEntitys/CreateAdmin": {
       "post": {
         "tags": [
           "UserEntitys"
@@ -697,60 +774,44 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
-    "/api/UserEntitys/Register": {
-      "post": {
+    "/api/UserEntitys/DeleteAdmin/{id}": {
+      "delete": {
         "tags": [
           "UserEntitys"
         ],
-        "operationId": "RegisterUserEntity",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterUserEntityCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
+        "operationId": "DeleteAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": ""
           }
-        }
-      }
-    },
-    "/api/UserEntitys/Login": {
-      "post": {
-        "tags": [
-          "UserEntitys"
-        ],
-        "operationId": "LoginUserEntity",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginUserEntityCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
         },
-        "responses": {
-          "200": {
-            "description": ""
+        "security": [
+          {
+            "JWT": []
           }
-        }
+        ]
       }
     },
-    "/api/UserEntitys/UpdateCompanyAndPositionUser/{id}": {
+    "/api/UserEntitys/UpdateUserEntity/{id}": {
       "put": {
         "tags": [
           "UserEntitys"
@@ -783,10 +844,15 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
-    "/api/UserEntitys/{id}": {
+    "/api/UserEntitys/DeleteUserEntity/{id}": {
       "delete": {
         "tags": [
           "UserEntitys"
@@ -807,7 +873,12 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/WeatherForecasts": {
@@ -992,6 +1063,39 @@
           }
         }
       },
+      "RegisterUserEntityCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "companyUser": {
+            "type": "string"
+          },
+          "positionUser": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginUserEntityCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
       "CreateTransactionDetailRentCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -1030,6 +1134,19 @@
           "dateReturn": {
             "type": "string",
             "format": "date"
+          }
+        }
+      },
+      "UpdateStatusTransactionDetailRentCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1311,23 +1428,9 @@
           "positionUser": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "Response": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "status": {
-            "type": "integer",
-            "format": "int32"
           },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "data": {
-            "nullable": true
+          "isAdmin": {
+            "type": "boolean"
           }
         }
       },
@@ -1336,39 +1439,6 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
-          }
-        }
-      },
-      "RegisterUserEntityCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "userName": {
-            "type": "string"
-          },
-          "companyUser": {
-            "type": "string"
-          },
-          "positionUser": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginUserEntityCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
             "type": "string"
           }
         }

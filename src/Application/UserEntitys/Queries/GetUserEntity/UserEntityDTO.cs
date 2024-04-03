@@ -8,6 +8,7 @@ public class UserEntityDTO
     public string? Email { get; init; }
     public string? CompanyUser { get; init; }
     public string? PositionUser { get; init; }
+    public bool IsAdmin { get; init; }
     private class Mapping : Profile
     {
         public Mapping()

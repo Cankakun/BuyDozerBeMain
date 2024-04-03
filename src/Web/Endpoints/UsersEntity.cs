@@ -18,15 +18,13 @@ public class UserEntitys : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .AllowAnonymous()
-            .MapGet(GetAllUserEntity)
-            .MapPost(CreateNewAdmin, "NewAdmin")
-            .MapPost(RegisterUserEntity, "Register")
-            .MapPost(LoginUserEntity, "Login")
-            .MapPut(UpdateUserEntity, "UpdateCompanyAndPositionUser/{id}")
-            .MapDelete(DeleteUserEntity, "{id}");
+            .RequireAuthorization()
+            .MapGet(GetAllUserEntity, "GetUserEntity")
+            .MapPost(CreateNewAdmin, "CreateAdmin")
+            .MapDelete(DeleteAdmin, "DeleteAdmin/{id}")
+            .MapPut(UpdateUserEntity, "UpdateUserEntity/{id}")
+            .MapDelete(DeleteUserEntity, "DeleteUserEntity/{id}");
     }
-
     public async Task<IResult> UpdateUserEntity(ISender sender, string id, UpdateUserEntityCommand command)
     {
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
@@ -53,17 +51,6 @@ public class UserEntitys : EndpointGroupBase
         await sender.Send(command);
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
-    public async Task<IResult> LoginUserEntity(ISender sender, [FromBody] LoginUserEntityCommand command)
-    {
-        var result = await sender.Send(command);
-        return Results.Content(result, "application/json");
-    }
-    public async Task<IResult> RegisterUserEntity(ISender sender, [FromBody] RegisterUserEntityCommand command)
-    {
-        var result = await sender.Send(command);
-        return Results.Content(result, "application/json");
-    }
-
     public async Task<PaginatedList<UserEntityDTO>> GetAllUserEntity(ISender sender, [AsParameters] GetUserEntitysQuery query)
     {
         return await sender.Send(query);
