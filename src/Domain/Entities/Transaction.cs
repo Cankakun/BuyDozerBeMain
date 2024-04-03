@@ -14,6 +14,6 @@ public class Transaction : BaseAuditableEntity
     public int StatusTransaction { get; set; } = 1;
     public HeavyUnit Unit { get; set; } = null!;
     public UserEntity User { get; set; } = null!;
-    public IList<DetailRent> DetailRents { get; private set; } = new List<DetailRent>();
+    public DetailRent DetailRents { get; private set; } = null!;
 
 }
