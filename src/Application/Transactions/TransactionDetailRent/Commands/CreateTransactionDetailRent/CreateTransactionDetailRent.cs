@@ -43,10 +43,9 @@ public class CreateTransactionDetailRentCommandHandler : IRequestHandler<CreateT
                 QtyTransaction = request.QtyTransaction,
                 TotalPriceTransaction = Convert.ToDecimal(request.QtyTransaction) * heavyUnit.PriceRentUnit,
                 DateTransaction = request.DateTransaction,
-                StatusTransaction = request.StatusTransaction
+                StatusTransaction = request.StatusTransaction,
+                // DetailRents = trxs.Select(productId => new DetailRent { TransactionId = productId, DateRent = request.DateRent, }).ToList()
             };
-            _context.Transactions.Add(transaction);
-            await _context.SaveChangesAsync(cancellationToken);
 
             var detail = new DetailRent
             {
@@ -55,6 +54,7 @@ public class CreateTransactionDetailRentCommandHandler : IRequestHandler<CreateT
                 DateReturn = request.DateReturn,
 
             };
+            _context.Transactions.Add(transaction);
             _context.DetailRents.Add(detail);
             await _context.SaveChangesAsync(cancellationToken);
 
