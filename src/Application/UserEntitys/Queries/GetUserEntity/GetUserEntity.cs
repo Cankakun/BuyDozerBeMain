@@ -11,6 +11,7 @@ namespace BuyDozerBeMain.Application.UserEntitys.Queries.GetUserEntity;
 public record GetUserEntitysQuery : IRequest<PaginatedList<UserEntityDTO>>
 {
     public string? ParameterName { get; init; }
+    public bool SortUserName { get; init; } = false;
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 1;
 };
@@ -27,19 +28,18 @@ public class GetUserEntitysQueryHandler : IRequestHandler<GetUserEntitysQuery, P
 
     public async Task<PaginatedList<UserEntityDTO>> Handle(GetUserEntitysQuery request, CancellationToken cancellationToken)
     {
+        // .PaginatedListAsync(request.PageNumber, request.PageSize);
         var users = await _context.UserEntitys
                 .AsNoTracking()
                 // .ProjectTo<UserEntityDTO>(_mapper.ConfigurationProvider)
                 .Where(x => EF.Functions.Like(x.UserName, request.ParameterName))
-                .OrderBy(t => t.UserName)
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
                 .ToListAsync();
-        // .PaginatedListAsync(request.PageNumber, request.PageSize);
-
+        var querys = request.SortUserName ? users.OrderBy(a => a.UserName) : users.OrderByDescending(a => a.UserName);
+        querys.Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize);
         var userEntities = new List<UserEntityDTO>();
 
-        foreach (var user in users)
+        foreach (var user in querys)
         {
             var isAdmin = await _user.IsInRoleAsync(user, "Administrator");
             userEntities.Add(new UserEntityDTO

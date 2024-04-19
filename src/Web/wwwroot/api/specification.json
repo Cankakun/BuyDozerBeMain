@@ -201,6 +201,53 @@
         }
       }
     },
+    "/api/TransactionDetailRents": {
+      "get": {
+        "tags": [
+          "TransactionDetailRents"
+        ],
+        "operationId": "GetTransactionRent",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfTransactionDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/TransactionDetailRents/CreateTransactionDetailRent": {
       "post": {
         "tags": [
@@ -702,6 +749,15 @@
             "x-position": 1
           },
           {
+            "name": "SortUserName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 2
+          },
+          {
             "name": "PageNumber",
             "in": "query",
             "required": true,
@@ -709,7 +765,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "PageSize",
@@ -719,7 +775,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 3
+            "x-position": 4
           }
         ],
         "responses": {
@@ -901,12 +957,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     }
   },
@@ -1095,6 +1146,368 @@
             "type": "string"
           }
         }
+      },
+      "PaginatedListOfTransactionDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/HeavyUnit"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserEntity"
+          },
+          "receiverName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverHp": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "qtyTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPriceTransaction": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dateTransaction": {
+            "type": "string",
+            "format": "date"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detailRents": {
+            "$ref": "#/components/schemas/DetailRent"
+          }
+        }
+      },
+      "HeavyUnit": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "nameUnit": {
+                "type": "string",
+                "nullable": true
+              },
+              "typeUnit": {
+                "type": "string",
+                "nullable": true
+              },
+              "descUnit": {
+                "type": "string",
+                "nullable": true
+              },
+              "imgUnit": {
+                "type": "string",
+                "nullable": true
+              },
+              "imgBrand": {
+                "type": "string",
+                "nullable": true
+              },
+              "priceBuyUnit": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "priceRentUnit": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "qtyUnit": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "BaseAuditableEntity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseEntity"
+          },
+          {
+            "type": "object",
+            "x-abstract": true,
+            "additionalProperties": false,
+            "properties": {
+              "created": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdBy": {
+                "type": "string",
+                "nullable": true
+              },
+              "lastModified": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastModifiedBy": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BaseEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "domainEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseEvent"
+            }
+          }
+        }
+      },
+      "BaseEvent": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "UserEntity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/IdentityUser"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "companyUser": {
+                "type": "string",
+                "nullable": true
+              },
+              "positionUser": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "IdentityUser": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/IdentityUserOfString"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "IdentityUserOfString": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailConfirmed": {
+            "type": "boolean"
+          },
+          "passwordHash": {
+            "type": "string",
+            "nullable": true
+          },
+          "securityStamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "concurrencyStamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumberConfirmed": {
+            "type": "boolean"
+          },
+          "twoFactorEnabled": {
+            "type": "boolean"
+          },
+          "lockoutEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lockoutEnabled": {
+            "type": "boolean"
+          },
+          "accessFailedCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DetailRent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "transactionId": {
+                "type": "string",
+                "nullable": true
+              },
+              "dateRent": {
+                "type": "string",
+                "format": "date"
+              },
+              "dateReturn": {
+                "type": "string",
+                "format": "date"
+              },
+              "transaction": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        ]
+      },
+      "Transaction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "transactionNum": {
+                "type": "string",
+                "nullable": true
+              },
+              "unitId": {
+                "type": "string",
+                "nullable": true
+              },
+              "userId": {
+                "type": "string",
+                "nullable": true
+              },
+              "receiverName": {
+                "type": "string",
+                "nullable": true
+              },
+              "receiverHp": {
+                "type": "string",
+                "nullable": true
+              },
+              "receiverAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "qtyTransaction": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "totalPriceTransaction": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "dateTransaction": {
+                "type": "string",
+                "format": "date"
+              },
+              "statusTransaction": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "unit": {
+                "$ref": "#/components/schemas/HeavyUnit"
+              },
+              "user": {
+                "$ref": "#/components/schemas/UserEntity"
+              },
+              "detailRents": {
+                "$ref": "#/components/schemas/DetailRent"
+              }
+            }
+          }
+        ]
       },
       "CreateTransactionDetailRentCommand": {
         "type": "object",

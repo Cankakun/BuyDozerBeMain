@@ -44,27 +44,26 @@ public class CreateTransactionDetailRentCommandHandler : IRequestHandler<CreateT
                 TotalPriceTransaction = Convert.ToDecimal(request.QtyTransaction) * heavyUnit.PriceRentUnit,
                 DateTransaction = request.DateTransaction,
                 StatusTransaction = request.StatusTransaction,
-                // DetailRents = trxs.Select(productId => new DetailRent { TransactionId = productId, DateRent = request.DateRent, }).ToList()
+                DetailRents = new DetailRent { DateRent = request.DateRent, DateReturn = request.DateReturn }
             };
 
-            var detail = new DetailRent
-            {
-                TransactionId = transaction.Id,
-                DateRent = request.DateRent,
-                DateReturn = request.DateReturn,
+            // var detail = new DetailRent
+            // {
+            //     TransactionId = transaction.Id,
+            //     DateRent = request.DateRent,
+            //     DateReturn = request.DateReturn,
 
-            };
+            // };
             _context.Transactions.Add(transaction);
-            _context.DetailRents.Add(detail);
             await _context.SaveChangesAsync(cancellationToken);
 
-            if (transaction is not null || detail is not null)
+            if (transaction is not null)
             {
                 var response = new Response
                 {
                     Status = 200,
                     Message = "success",
-                    Data = transaction
+                    Data = _context.Transactions.Find(transaction.Id)
                 };
                 // var jsonResult = JObject.Parse(JsonSerializer.Serialize(response));
                 // jsonResult.Add("DataDetail", JsonSerializer.Serialize(detail));

@@ -8,6 +8,7 @@ using BuyDozerBeMain.Application.UserEntitys.Commands.LoginUserEntity;
 using BuyDozerBeMain.Application.UserEntitys.Commands.RegisterUserEntity;
 using BuyDozerBeMain.Application.UserEntitys.Commands.UpdateUserEntity;
 using BuyDozerBeMain.Application.UserEntitys.Queries.GetUserEntity;
+using BuyDozerBeMain.Domain.Constants;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

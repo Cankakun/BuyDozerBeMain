@@ -28,6 +28,7 @@ public class LoginRegisters : EndpointGroupBase
         var result = await sender.Send(command);
         return Results.Content(result, "application/json");
     }
+
     public async Task<IResult> RegisterUserEntity(ISender sender, [FromBody] RegisterUserEntityCommand command)
     {
         var result = await sender.Send(command);
