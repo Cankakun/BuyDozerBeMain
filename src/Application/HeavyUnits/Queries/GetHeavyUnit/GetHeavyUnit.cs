@@ -23,35 +23,20 @@ public class GetHeavyUnitsQueryHandler : IRequestHandler<GetHeavyUnitsQuery, Pag
 
     public async Task<PaginatedList<HeavyUnitDTO>> Handle(GetHeavyUnitsQuery request, CancellationToken cancellationToken)
     {
-        if (request.PriceBuy)
-        {
-            return await _context.HeavyUnits
-                .AsNoTracking()
-                .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
-                .OrderBy(t => t.PriceBuyUnit)
-                .PaginatedListAsync(request.PageNumber, request.PageSize);
+        return !request.PriceBuy
+                ? await _context.HeavyUnits
+                            .AsNoTracking()
+                            .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
+                            .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
+                            .OrderByDescending(t => t.PriceBuyUnit)
+                            .PaginatedListAsync(request.PageNumber, request.PageSize)
+                : await _context.HeavyUnits
+                            .AsNoTracking()
+                            .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
+                            .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
+                            .OrderBy(t => t.NameUnit)
+                            .PaginatedListAsync(request.PageNumber, request.PageSize);
 
-        }
-        else if (!request.PriceBuy)
-        {
-            return await _context.HeavyUnits
-                .AsNoTracking()
-                .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
-                .OrderByDescending(t => t.PriceBuyUnit)
-                .PaginatedListAsync(request.PageNumber, request.PageSize);
-        }
-        else
-        {
-            return await _context.HeavyUnits
-            .AsNoTracking()
-            .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-            .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
-            .OrderBy(t => t.NameUnit)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
-
-        }
 
     }
 }

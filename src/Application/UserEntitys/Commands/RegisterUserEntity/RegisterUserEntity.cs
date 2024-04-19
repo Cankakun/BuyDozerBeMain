@@ -2,7 +2,6 @@ using System.Text.Json;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 namespace BuyDozerBeMain.Application.UserEntitys.Commands.RegisterUserEntity;
-
 public record RegisterUserEntityCommand : IRequest<string>
 {
     public required string Email { get; init; }

@@ -4,6 +4,9 @@ using System.Text.Json;
 using BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Commands.CreateTransactionDetailRent;
 using BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Commands.DeleteTransactionDetailRent;
 using BuyDozerBeMain.Application.UserEntitys.Commands.UpdateStatusTransactionDetailRent;
+// using BuyDozerBeMain.Application.Transactions.Queries.GetTransaction;
+using BuyDozerBeMain.Application.Common.Models;
+using BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Queries.GetTransactionDetailRent;
 
 namespace BuyDozerBeMain.Web.Endpoints;
 
@@ -19,6 +22,7 @@ public class TransactionDetailRents : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
+            .MapGet(GetTransactionRent)
             .MapPost(CreateTransactionDetailRent, "CreateTransactionDetailRent")
             .MapPut(UpdateTransactionDetailRent, "UpdateTransactionDetailRent/{id}")
             .MapDelete(DeleteTransactionDetailRent, "DeleteTransactionDetailRent/{id}");
@@ -62,6 +66,10 @@ public class TransactionDetailRents : EndpointGroupBase
             Data = "Transaksi dengan ID " + id + " sukses dihapus!"
         };
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
+    }
+    public async Task<PaginatedList<TransactionDTO>> GetTransactionRent(ISender sender, [AsParameters] GetTransactionDetailRent query)
+    {
+        return await sender.Send(query);
     }
 
 }

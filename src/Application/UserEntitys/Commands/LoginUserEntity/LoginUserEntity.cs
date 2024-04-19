@@ -1,36 +1,37 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 
 namespace BuyDozerBeMain.Application.UserEntitys.Commands.LoginUserEntity;
-
 public record LoginUserEntityCommand : IRequest<string>
 {
-    public required string Email { get; init; }
+    public required string UserName { get; init; }
     public required string Password { get; init; }
 }
 
 public class LoginUserEntityCommandHandler : IRequestHandler<LoginUserEntityCommand, string>
 {
     private readonly UserManager<UserEntity> _userManager;
+    // private readonly SignInManager<UserEntity> _signInManager;
     public LoginUserEntityCommandHandler(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
+        // _signInManager = signInManager;
     }
 
     public async Task<string> Handle(LoginUserEntityCommand request, CancellationToken cancellationToken)
     {
         var login = new UserEntityLogin
         {
-            Email = request.Email,
+            Email = request.UserName,
             Password = request.Password,
             TwoFactorCode = "string",
             TwoFactorRecoveryCode = "string"
         };
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _userManager.FindByNameAsync(request.UserName);
         if (user != null)
         {
             var validCredentials = await _userManager.CheckPasswordAsync(user, request.Password);
@@ -66,7 +67,7 @@ public class LoginUserEntityCommandHandler : IRequestHandler<LoginUserEntityComm
             {
                 Status = 404,
                 Message = "Not Found",
-                Data = "Email tidak ditemukan"
+                Data = "Username tidak ditemukan"
             };
             return JsonSerializer.Serialize(response); ;
         }

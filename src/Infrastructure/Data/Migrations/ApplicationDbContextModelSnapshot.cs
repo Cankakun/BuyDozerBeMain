@@ -410,7 +410,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.DetailBuy", b =>
                 {
                     b.HasOne("BuyDozerBeMain.Domain.Entities.Transaction", "Transaction")
-                        .WithMany()
+                        .WithOne()
                         .HasForeignKey("TransactionId");
 
                     b.Navigation("Transaction");
@@ -419,7 +419,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.DetailRent", b =>
                 {
                     b.HasOne("BuyDozerBeMain.Domain.Entities.Transaction", "Transaction")
-                        .WithMany()
+                        .WithOne()
                         .HasForeignKey("TransactionId");
 
                     b.Navigation("Transaction");
