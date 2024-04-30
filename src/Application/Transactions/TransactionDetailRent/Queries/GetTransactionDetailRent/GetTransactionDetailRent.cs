@@ -11,8 +11,9 @@ namespace BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Queries.
 
 public record GetTransactionDetailRent : IRequest<PaginatedList<TransactionDTO>>
 {
-    // public string? ParameterUserName { get; init; }
-    // public bool SortDate { get; init; } = false;
+    public string? ParameterUserName { get; init; }
+    public string? ParameterTransactionNumber { get; init; }
+    public bool SortDate { get; init; } = false;
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 1;
 };
@@ -29,15 +30,28 @@ public class GetTransactionDetailRentHandler : IRequestHandler<GetTransactionDet
 
     public async Task<PaginatedList<TransactionDTO>> Handle(GetTransactionDetailRent request, CancellationToken cancellationToken)
     {
-        return await _context.Transactions
-                            .AsNoTracking()
-                            .Include(a => a.DetailRents)
-                            .Include(a => a.Unit)
-                            .Include(a => a.User)
-                            // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                            .OrderBy(a => a.Id)
-                            .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
-                            .PaginatedListAsync(request.PageNumber, request.PageSize);
+        return request.SortDate ?
+            await _context.Transactions
+                .AsNoTracking()
+                .Include(a => a.DetailRents)
+                .Include(a => a.Unit)
+                .Include(a => a.User)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber))
+                // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
+                .OrderBy(a => a.DateTransaction)
+                .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
+                .PaginatedListAsync(request.PageNumber, request.PageSize)
+                :
+            await _context.Transactions
+                .AsNoTracking()
+                .Include(a => a.DetailRents)
+                .Include(a => a.Unit)
+                .Include(a => a.User)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber))
+                // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
+                .OrderByDescending(a => a.DateTransaction)
+                .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
+                .PaginatedListAsync(request.PageNumber, request.PageSize);
         // var transactionWithDetail = await _context.DetailRents.FindAsync(transaction.)
         // .Include(a => a.Transaction)
         // .ToListAsync();

@@ -15,5 +15,6 @@ public class Transaction : BaseAuditableEntity
     public HeavyUnit Unit { get; set; } = null!;
     public UserEntity User { get; set; } = null!;
     public DetailRent DetailRents { get; set; } = null!;
+    public DetailBuy DetailBuy { get; set; } = null!;
 
 }

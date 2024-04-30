@@ -201,13 +201,40 @@
         }
       }
     },
-    "/api/TransactionDetailRents": {
+    "/api/TransactionDetailBuy/GetTransactionDetailBuy": {
       "get": {
         "tags": [
-          "TransactionDetailRents"
+          "TransactionDetailBuy"
         ],
-        "operationId": "GetTransactionRent",
+        "operationId": "GetTransactionDetailBuy",
         "parameters": [
+          {
+            "name": "ParameterUserName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "ParameterTransactionNumber",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "SortDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
+          },
           {
             "name": "PageNumber",
             "in": "query",
@@ -216,7 +243,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 1
+            "x-position": 4
           },
           {
             "name": "PageSize",
@@ -226,7 +253,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 2
+            "x-position": 5
           }
         ],
         "responses": {
@@ -236,6 +263,180 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedListOfTransactionDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionDetailBuy/CreateTransactionDetailBuy": {
+      "post": {
+        "tags": [
+          "TransactionDetailBuy"
+        ],
+        "operationId": "CreateTransactionDetailBuy",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionDetailBuyCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionDetailBuy/UpdateTransactionDetailBuy/{id}": {
+      "put": {
+        "tags": [
+          "TransactionDetailBuy"
+        ],
+        "operationId": "UpdateTransactionDetailBuy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusTransactionCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionDetailBuy/DeleteTransactionDetailBuy/{id}": {
+      "delete": {
+        "tags": [
+          "TransactionDetailBuy"
+        ],
+        "operationId": "DeleteTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionDetailRents/GetTransactionDetailRent": {
+      "get": {
+        "tags": [
+          "TransactionDetailRents"
+        ],
+        "operationId": "GetTransactionRent",
+        "parameters": [
+          {
+            "name": "ParameterUserName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "ParameterTransactionNumber",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "SortDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfTransactionDTO2"
                 }
               }
             }
@@ -300,7 +501,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateStatusTransactionDetailRentCommand"
+                "$ref": "#/components/schemas/UpdateStatusTransactionCommand"
               }
             }
           },
@@ -814,18 +1015,6 @@
             "x-position": 1
           }
         ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateNewAdminCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
         "responses": {
           "200": {
             "description": ""
@@ -1139,7 +1328,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "email": {
+          "userName": {
             "type": "string"
           },
           "password": {
@@ -1223,8 +1412,8 @@
             "type": "integer",
             "format": "int32"
           },
-          "detailRents": {
-            "$ref": "#/components/schemas/DetailRent"
+          "detailBuys": {
+            "$ref": "#/components/schemas/DetailBuy"
           }
         }
       },
@@ -1419,7 +1608,7 @@
           }
         }
       },
-      "DetailRent": {
+      "DetailBuy": {
         "allOf": [
           {
             "$ref": "#/components/schemas/BaseEntity"
@@ -1432,16 +1621,12 @@
                 "type": "string",
                 "nullable": true
               },
-              "dateRent": {
-                "type": "string",
-                "format": "date"
-              },
-              "dateReturn": {
-                "type": "string",
-                "format": "date"
-              },
               "transaction": {
                 "$ref": "#/components/schemas/Transaction"
+              },
+              "dateBuy": {
+                "type": "string",
+                "format": "date"
               }
             }
           }
@@ -1504,10 +1689,172 @@
               },
               "detailRents": {
                 "$ref": "#/components/schemas/DetailRent"
+              },
+              "detailBuy": {
+                "$ref": "#/components/schemas/DetailBuy"
               }
             }
           }
         ]
+      },
+      "DetailRent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "transactionId": {
+                "type": "string",
+                "nullable": true
+              },
+              "dateRent": {
+                "type": "string",
+                "format": "date"
+              },
+              "dateReturn": {
+                "type": "string",
+                "format": "date"
+              },
+              "transaction": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        ]
+      },
+      "CreateTransactionDetailBuyCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unitId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "receiverName": {
+            "type": "string"
+          },
+          "receiverHp": {
+            "type": "string"
+          },
+          "receiverAddress": {
+            "type": "string"
+          },
+          "qtyTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateTransaction": {
+            "type": "string",
+            "format": "date"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "UpdateStatusTransactionCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PaginatedListOfTransactionDTO2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionDTO2"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionDTO2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/HeavyUnit"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserEntity"
+          },
+          "receiverName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverHp": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "qtyTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPriceTransaction": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dateTransaction": {
+            "type": "string",
+            "format": "date"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detailRents": {
+            "$ref": "#/components/schemas/DetailRent"
+          }
+        }
       },
       "CreateTransactionDetailRentCommand": {
         "type": "object",
@@ -1547,19 +1894,6 @@
           "dateReturn": {
             "type": "string",
             "format": "date"
-          }
-        }
-      },
-      "UpdateStatusTransactionDetailRentCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "statusTransaction": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -1844,15 +2178,6 @@
           },
           "isAdmin": {
             "type": "boolean"
-          }
-        }
-      },
-      "CreateNewAdminCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
           }
         }
       },

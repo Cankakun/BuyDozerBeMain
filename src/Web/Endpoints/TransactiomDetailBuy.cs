@@ -1,19 +1,19 @@
 using System.Net.Http.Headers;
 using BuyDozerBeMain.Domain.Entities;
 using System.Text.Json;
-using BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Commands.CreateTransactionDetailRent;
+using BuyDozerBeMain.Application.Transactions.TransactionDetailBuy.Commands.CreateTransactionDetailBuy;
 using BuyDozerBeMain.Application.Transactions.Commands.DeleteTransaction;
 // using BuyDozerBeMain.Application.Transactions.Queries.GetTransaction;
 using BuyDozerBeMain.Application.Common.Models;
-using BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Queries.GetTransactionDetailRent;
+using BuyDozerBeMain.Application.Transactions.TransactionDetailBuy.Queries.GetTransactionDetailBuy;
 using BuyDozerBeMain.Application.Transactions.Commands.UpdateStatusTransaction;
 
 namespace BuyDozerBeMain.Web.Endpoints;
 
-public class TransactionDetailRents : EndpointGroupBase
+public class TransactionDetailBuy : EndpointGroupBase
 {
     // private readonly IApplicationDbContext _context;
-    // public TransactionDetailRents(IApplicationDbContext context)
+    // public TransactionDetailRBuyTransactionDetailBuy(IApplicationDbContext context)
     // {
     //     _context = context;
     // }
@@ -22,15 +22,15 @@ public class TransactionDetailRents : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
-            .MapGet(GetTransactionRent, "GetTransactionDetailRent")
-            .MapPost(CreateTransactionDetailRent, "CreateTransactionDetailRent")
-            .MapPut(UpdateTransactionDetailRent, "UpdateTransactionDetailRent/{id}")
-            .MapDelete(DeleteTransactionDetailRent, "DeleteTransactionDetailRent/{id}");
+            .MapGet(GetTransactionDetailBuy, "GetTransactionDetailBuy")
+            .MapPost(CreateTransactionDetailBuy, "CreateTransactionDetailBuy")
+            .MapPut(UpdateTransactionDetailBuy, "UpdateTransactionDetailBuy/{id}")
+            .MapDelete(DeleteTransaction, "DeleteTransactionDetailBuy/{id}");
     }
 
 
 
-    public async Task<IResult> CreateTransactionDetailRent(ISender sender, CreateTransactionDetailRentCommand command)
+    public async Task<IResult> CreateTransactionDetailBuy(ISender sender, CreateTransactionDetailBuyCommand command)
     {
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
         Response response = new Response
@@ -42,7 +42,7 @@ public class TransactionDetailRents : EndpointGroupBase
         await sender.Send(command);
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
-    public async Task<IResult> UpdateTransactionDetailRent(ISender sender, string id, UpdateStatusTransactionCommand command)
+    public async Task<IResult> UpdateTransactionDetailBuy(ISender sender, string id, UpdateStatusTransactionCommand command)
     {
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
         Response response = new Response
@@ -55,7 +55,7 @@ public class TransactionDetailRents : EndpointGroupBase
         await sender.Send(command);
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
-    public async Task<IResult> DeleteTransactionDetailRent(ISender sender, string id)
+    public async Task<IResult> DeleteTransaction(ISender sender, string id)
     {
         await sender.Send(new DeleteTransactionCommand(id));
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
@@ -67,7 +67,7 @@ public class TransactionDetailRents : EndpointGroupBase
         };
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
-    public async Task<PaginatedList<TransactionDTO>> GetTransactionRent(ISender sender, [AsParameters] GetTransactionDetailRent query)
+    public async Task<PaginatedList<TransactionDTO>> GetTransactionDetailBuy(ISender sender, [AsParameters] GetTransactionDetailBuy query)
     {
         return await sender.Send(query);
     }
