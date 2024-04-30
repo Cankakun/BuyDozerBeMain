@@ -34,8 +34,8 @@ public class GetUserEntitysQueryHandler : IRequestHandler<GetUserEntitysQuery, P
                 // .ProjectTo<UserEntityDTO>(_mapper.ConfigurationProvider)
                 .Where(x => EF.Functions.Like(x.UserName, request.ParameterName))
                 .ToListAsync();
-        var querys = request.SortUserName ? users.OrderBy(a => a.UserName) : users.OrderByDescending(a => a.UserName);
-        querys.Skip((request.PageNumber - 1) * request.PageSize)
+        var querys = request.SortUserName ? users.OrderBy(a => a.UserName).Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize) : users.OrderByDescending(a => a.UserName).Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize);
         var userEntities = new List<UserEntityDTO>();
 

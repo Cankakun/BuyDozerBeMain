@@ -1,4 +1,5 @@
-﻿using BuyDozerBeMain.Application.Common.Interfaces;
+﻿using System.Reflection.Metadata;
+using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Domain.Constants;
 using BuyDozerBeMain.Domain.Entities;
 using BuyDozerBeMain.Infrastructure.Data;
@@ -33,8 +34,17 @@ public static class DependencyInjection
 
         services.AddScoped<ApplicationDbContextInitialiser>();
 
+        // services.AddAuthentication()
+        //     .AddBearerToken(props =>
+        //     {
+        //         props.BearerTokenExpiration = TimeSpan.FromHours(3);
+
+        //     });
         services.AddAuthentication()
-            .AddBearerToken(IdentityConstants.BearerScheme);
+            .AddBearerToken(IdentityConstants.BearerScheme, (props) =>
+            {
+                props.BearerTokenExpiration = TimeSpan.FromHours(3);
+            });
 
         services.AddAuthorizationBuilder();
 

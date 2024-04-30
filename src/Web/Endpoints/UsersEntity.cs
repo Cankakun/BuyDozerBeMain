@@ -39,17 +39,17 @@ public class UserEntitys : EndpointGroupBase
         await sender.Send(command);
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
-    public async Task<IResult> CreateNewAdmin(ISender sender, string id, CreateNewAdminCommand command)
+    public async Task<IResult> CreateNewAdmin([FromServices] ISender sender, string id)
     {
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
         Response response = new Response
         {
             Status = 200,
             Message = "success",
-            Data = command
+            Data = new { Id = id }
         };
-        if (id != command.Id) return Results.BadRequest();
-        await sender.Send(command);
+        // if (id != command.Id) return Results.BadRequest();
+        await sender.Send(new CreateNewAdminCommand { Id = id });
         return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
     }
     public async Task<PaginatedList<UserEntityDTO>> GetAllUserEntity(ISender sender, [AsParameters] GetUserEntitysQuery query)

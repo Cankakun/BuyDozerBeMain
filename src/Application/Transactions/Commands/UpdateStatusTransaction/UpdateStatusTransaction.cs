@@ -1,25 +1,25 @@
 using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Security;
 
-namespace BuyDozerBeMain.Application.UserEntitys.Commands.UpdateStatusTransactionDetailRent;
+namespace BuyDozerBeMain.Application.Transactions.Commands.UpdateStatusTransaction;
 [Authorize(Roles = "Administrator")]
 
-public record UpdateStatusTransactionDetailRentCommand : IRequest
+public record UpdateStatusTransactionCommand : IRequest
 {
     public required string Id { get; init; }
     public required int StatusTransaction { get; init; }
 }
 
-public class UpdateStatusTransactionDetailRentCommandHandler : IRequestHandler<UpdateStatusTransactionDetailRentCommand>
+public class UpdateStatusTransactionCommandHandler : IRequestHandler<UpdateStatusTransactionCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public UpdateStatusTransactionDetailRentCommandHandler(IApplicationDbContext context)
+    public UpdateStatusTransactionCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task Handle(UpdateStatusTransactionDetailRentCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateStatusTransactionCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Transactions
             .FindAsync(new object[] { request.Id }, cancellationToken);
