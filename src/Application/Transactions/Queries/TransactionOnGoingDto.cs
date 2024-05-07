@@ -1,12 +1,12 @@
 using BuyDozerBeMain.Domain.Entities;
 
-namespace BuyDozerBeMain.Application.Transactions.TransactionDetailBuy.Queries.GetTransactionDetailBuy;
-public class TransactionDTO
+namespace BuyDozerBeMain.Application.Transactions.TransactionOnGoing.Queries.GetTransactionOnGoing;
+
+public class TransactionOnGoingDTO
 {
     public string? Id { get; init; }
     public string? TransactionNum { get; init; }
-    public HeavyUnit Unit { get; init; } = null!;
-    public UserEntity User { get; init; } = null!;
+    public string? UserName { get; init; }
     public string? ReceiverName { get; init; }
     public string? ReceiverHp { get; init; }
     public string? ReceiverAddress { get; init; }
@@ -14,16 +14,13 @@ public class TransactionDTO
     public decimal TotalPriceTransaction { get; init; }
     public DateOnly DateTransaction { get; init; }
     public int StatusTransaction { get; init; }
-    public DetailBuy DetailBuy { get; set; } = null!;
     public DateTimeOffset Created { get; set; }
 
-    // public DetailRent DetailRents { get; init; } = null!;
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Transaction, TransactionDTO>();
-            // CreateMap<DetailRent, TransactionDTO>();
+            CreateMap<Transaction, TransactionOnGoingDTO>().ForMember(d => d.UserName, opt => opt.MapFrom(src => src.User.UserName));
         }
     }
 }

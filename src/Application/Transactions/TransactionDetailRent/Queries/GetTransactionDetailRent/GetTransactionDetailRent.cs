@@ -36,9 +36,8 @@ public class GetTransactionDetailRentHandler : IRequestHandler<GetTransactionDet
                 .Include(a => a.DetailRents)
                 .Include(a => a.Unit)
                 .Include(a => a.User)
-                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber))
-                // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                .OrderBy(a => a.DateTransaction)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.DetailBuy == null || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.DetailBuy == null)
+                .OrderBy(a => a.Created)
                 .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize)
                 :
@@ -47,37 +46,9 @@ public class GetTransactionDetailRentHandler : IRequestHandler<GetTransactionDet
                 .Include(a => a.DetailRents)
                 .Include(a => a.Unit)
                 .Include(a => a.User)
-                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber))
-                // .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
-                .OrderByDescending(a => a.DateTransaction)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.DetailBuy == null || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.DetailBuy == null)
+                .OrderByDescending(a => a.Created)
                 .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
-        // var transactionWithDetail = await _context.DetailRents.FindAsync(transaction.)
-        // .Include(a => a.Transaction)
-        // .ToListAsync();
-
-        // var transactionWithDetail = transaction.GroupBy(a => a.TransactionId)
-        // .Select(group => new GetTransactionDTO
-        // {
-        //     TransactionId = group.Key,
-        //     TransactionNum = group.First().Transaction.TransactionNum,
-        //     UserName = group.First().Transaction.User.UserName,
-        //     NameUnit = group.First().Transaction.Unit.NameUnit,
-        //     ReceiverName = group.First().Transaction.ReceiverName,
-        //     ReceiverAddress = group.First().Transaction.ReceiverAddress,
-        //     ReceiverHp = group.First().Transaction.ReceiverHp,
-        //     QtyTransaction = group.First().Transaction.QtyTransaction,
-        //     TotalPriceTransaction = group.First().Transaction.TotalPriceTransaction,
-        //     DateTransaction = group.First().Transaction.DateTransaction,
-        //     StatusTransaction = group.First().Transaction.StatusTransaction,
-        //     DetailRentsId = group.First().Transaction.DetailRents.Id,
-        //     DateRent = group.First().Transaction.DetailRents.DateRent,
-        //     DateReturn = group.First().Transaction.DetailRents.DateReturn
-        // }).ToList();
-
-        // var totalTransaksi = await _context.Transactions.CountAsync();
-        // return new PaginatedList<GetTransactionDTO>(transactionWithDetail, totalTransaksi, request.PageNumber, request.PageSize);
-        // .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
-
     }
 }

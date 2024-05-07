@@ -31,6 +31,10 @@ public class CreateTransactionDetailBuyCommandHandler : IRequestHandler<CreateTr
         var heavyUnit = _context.HeavyUnits.Find(request.UnitId);
         if (heavyUnit is not null)
         {
+            if (request.QtyTransaction > heavyUnit.QtyUnit || heavyUnit.QtyUnit == 0)
+            {
+                return new Response { Status = 400, Message = "Bad Request", Data = "Kuantitas Unit yang dipesan melebihi Unit yang tersedia!" };
+            }
             var transaction = new Transaction
             {
                 TransactionNum = "TRX" + now.ToString("yyyyMMddHHmmss"),
@@ -46,13 +50,6 @@ public class CreateTransactionDetailBuyCommandHandler : IRequestHandler<CreateTr
                 DetailBuy = new DetailBuy { DateBuy = request.TransactionDate }
             };
 
-            // var detail = new DetailRent
-            // {
-            //     TransactionId = transaction.Id,
-            //     DateRent = request.DateRent,
-            //     DateReturn = request.DateReturn,
-
-            // };
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -62,10 +59,8 @@ public class CreateTransactionDetailBuyCommandHandler : IRequestHandler<CreateTr
                 {
                     Status = 200,
                     Message = "success",
-                    Data = _context.Transactions.Find(transaction.Id)
+                    Data = await _context.Transactions.FirstOrDefaultAsync(t => t.TransactionNum == transaction.TransactionNum)
                 };
-                // var jsonResult = JObject.Parse(JsonSerializer.Serialize(response));
-                // jsonResult.Add("DataDetail", JsonSerializer.Serialize(detail));
 
                 return response;
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeGuidToString : Migration
+    public partial class FixingRelation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,17 +30,17 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CompanyUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PositionUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CompanyUser = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    PositionUser = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -57,14 +57,14 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NameUnit = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    TypeUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameUnit = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TypeUnit = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     DescUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImgUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImgBrand = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PriceBuyUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PriceRentUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QtyUnit = table.Column<int>(type: "int", nullable: false),
+                    QtyUnit = table.Column<int>(type: "int", maxLength: 10, nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -73,6 +73,19 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HeavyUnits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PriceListRents",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    NameUnit = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PriceRentUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PriceListRents", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,16 +199,17 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TransactionNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UnitId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransactionNum = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    UnitId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReceiverHp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    QtyTransaction = table.Column<int>(type: "int", nullable: false),
+                    ReceiverName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ReceiverHp = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    ReceiverAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    QtyTransaction = table.Column<int>(type: "int", maxLength: 10, nullable: false),
                     TotalPriceTransaction = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateTransaction = table.Column<DateOnly>(type: "date", nullable: false),
-                    StatusTransaction = table.Column<int>(type: "int", nullable: false),
+                    StatusTransaction = table.Column<int>(type: "int", maxLength: 1, nullable: false),
+                    PaymentConfirmationReceipt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -213,8 +227,44 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         name: "FK_Transactions_HeavyUnits_UnitId",
                         column: x => x.UnitId,
                         principalTable: "HeavyUnits",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DetailBuys",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateBuy = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetailBuys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DetailBuys_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DetailRents",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateRent = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateReturn = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetailRents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DetailRents_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -253,8 +303,21 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailBuys_TransactionId",
+                table: "DetailBuys",
+                column: "TransactionId",
                 unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                filter: "[TransactionId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailRents_TransactionId",
+                table: "DetailRents",
+                column: "TransactionId",
+                unique: true,
+                filter: "[TransactionId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_UnitId",
@@ -286,10 +349,19 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Transactions");
+                name: "DetailBuys");
+
+            migrationBuilder.DropTable(
+                name: "DetailRents");
+
+            migrationBuilder.DropTable(
+                name: "PriceListRents");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

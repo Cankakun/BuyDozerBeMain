@@ -30,6 +30,7 @@ public class TransactionDTO
     public DateOnly DateTransaction { get; init; }
     public int StatusTransaction { get; init; }
     public DetailRent DetailRents { get; set; } = null!;
+    public DateTimeOffset Created { get; set; }
 
     // public DetailRent DetailRents { get; init; } = null!;
     private class Mapping : Profile
