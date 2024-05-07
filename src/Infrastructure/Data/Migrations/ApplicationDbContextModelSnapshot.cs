@@ -35,7 +35,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("TransactionId")
+                        .IsUnique()
+                        .HasFilter("[TransactionId] IS NOT NULL");
 
                     b.ToTable("DetailBuys");
                 });
@@ -56,7 +58,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("TransactionId")
+                        .IsUnique()
+                        .HasFilter("[TransactionId] IS NOT NULL");
 
                     b.ToTable("DetailRents");
                 });
@@ -117,7 +121,10 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("NameUnit")
+                    b.Property<int>("Months")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameRent")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -149,6 +156,12 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentConfirmationReceipt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PriceListRentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("QtyTransaction")
                         .HasMaxLength(10)
@@ -182,13 +195,14 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UnitId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PriceListRentId");
 
                     b.HasIndex("UnitId");
 
@@ -410,8 +424,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.DetailBuy", b =>
                 {
                     b.HasOne("BuyDozerBeMain.Domain.Entities.Transaction", "Transaction")
-                        .WithOne()
-                        .HasForeignKey("TransactionId");
+                        .WithOne("DetailBuy")
+                        .HasForeignKey("BuyDozerBeMain.Domain.Entities.DetailBuy", "TransactionId");
 
                     b.Navigation("Transaction");
                 });
@@ -419,23 +433,27 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.DetailRent", b =>
                 {
                     b.HasOne("BuyDozerBeMain.Domain.Entities.Transaction", "Transaction")
-                        .WithOne()
-                        .HasForeignKey("TransactionId");
+                        .WithOne("DetailRents")
+                        .HasForeignKey("BuyDozerBeMain.Domain.Entities.DetailRent", "TransactionId");
 
                     b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.Transaction", b =>
                 {
+                    b.HasOne("BuyDozerBeMain.Domain.Entities.PriceListRent", "PriceListRent")
+                        .WithMany()
+                        .HasForeignKey("PriceListRentId");
+
                     b.HasOne("BuyDozerBeMain.Domain.Entities.HeavyUnit", "Unit")
                         .WithMany()
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitId");
 
                     b.HasOne("BuyDozerBeMain.Domain.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("PriceListRent");
 
                     b.Navigation("Unit");
 
@@ -490,6 +508,15 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.Transaction", b =>
+                {
+                    b.Navigation("DetailBuy")
+                        .IsRequired();
+
+                    b.Navigation("DetailRents")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

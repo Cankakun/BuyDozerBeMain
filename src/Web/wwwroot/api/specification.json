@@ -201,6 +201,151 @@
         }
       }
     },
+    "/api/PriceListRents/GetPriceListRent": {
+      "get": {
+        "tags": [
+          "PriceListRents"
+        ],
+        "operationId": "GetAllPriceListRent",
+        "parameters": [
+          {
+            "name": "ParameterNameRent",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "SortPrice",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfPriceListRentDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PriceListRents/CreatePriceListRent": {
+      "post": {
+        "tags": [
+          "PriceListRents"
+        ],
+        "operationId": "CreatePriceListRent",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePriceListRentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/PriceListRents/UpdatePriceListRent/{id}": {
+      "put": {
+        "tags": [
+          "PriceListRents"
+        ],
+        "operationId": "UpdatePriceListRent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePriceListRentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/PriceListRents/DeletePriceListRent/{id}": {
+      "delete": {
+        "tags": [
+          "PriceListRents"
+        ],
+        "operationId": "DeletePriceListRent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/TransactionDetailBuy/GetTransactionDetailBuy": {
       "get": {
         "tags": [
@@ -537,6 +682,121 @@
             "x-position": 1
           }
         ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionOnGoing/GetTransactionOnGoing": {
+      "get": {
+        "tags": [
+          "TransactionOnGoing"
+        ],
+        "operationId": "GetTransactionOnGoing",
+        "parameters": [
+          {
+            "name": "ParameterUserName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "ParameterTransactionNumber",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "SortDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfTransactionOnGoingDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionOnGoing/UpdateTransactionOnGoing/{id}": {
+      "put": {
+        "tags": [
+          "TransactionOnGoing"
+        ],
+        "operationId": "UpdatePaymentConfirmationReceiptTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePaymentConfirmationReceiptTransactionCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
         "responses": {
           "200": {
             "description": ""
@@ -1336,6 +1596,97 @@
           }
         }
       },
+      "PaginatedListOfPriceListRentDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceListRentDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PriceListRentDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameRent": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceRentUnit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "months": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CreatePriceListRentCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nameRent": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceRentUnit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "months": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UpdatePriceListRentCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nameRent": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceRentUnit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "months": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "PaginatedListOfTransactionDTO": {
         "type": "object",
         "additionalProperties": false,
@@ -1412,8 +1763,12 @@
             "type": "integer",
             "format": "int32"
           },
-          "detailBuys": {
+          "detailBuy": {
             "$ref": "#/components/schemas/DetailBuy"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -1653,6 +2008,10 @@
                 "type": "string",
                 "nullable": true
               },
+              "priceListRentId": {
+                "type": "string",
+                "nullable": true
+              },
               "receiverName": {
                 "type": "string",
                 "nullable": true
@@ -1681,6 +2040,10 @@
                 "type": "integer",
                 "format": "int32"
               },
+              "paymentConfirmationReceipt": {
+                "type": "string",
+                "nullable": true
+              },
               "unit": {
                 "$ref": "#/components/schemas/HeavyUnit"
               },
@@ -1692,6 +2055,9 @@
               },
               "detailBuy": {
                 "$ref": "#/components/schemas/DetailBuy"
+              },
+              "priceListRent": {
+                "$ref": "#/components/schemas/PriceListRent"
               }
             }
           }
@@ -1720,6 +2086,31 @@
               },
               "transaction": {
                 "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        ]
+      },
+      "PriceListRent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "nameRent": {
+                "type": "string",
+                "nullable": true
+              },
+              "priceRentUnit": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "months": {
+                "type": "integer",
+                "format": "int32"
               }
             }
           }
@@ -1853,6 +2244,10 @@
           },
           "detailRents": {
             "$ref": "#/components/schemas/DetailRent"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -1864,6 +2259,9 @@
             "type": "string"
           },
           "userId": {
+            "type": "string"
+          },
+          "priceListRentId": {
             "type": "string"
           },
           "receiverName": {
@@ -1890,10 +2288,102 @@
           "dateRent": {
             "type": "string",
             "format": "date"
+          }
+        }
+      },
+      "PaginatedListOfTransactionOnGoingDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionOnGoingDTO"
+            }
           },
-          "dateReturn": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionOnGoingDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverHp": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "qtyTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPriceTransaction": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dateTransaction": {
             "type": "string",
             "format": "date"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdatePaymentConfirmationReceiptTransactionCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "paymentConfirmationReceiptTransaction": {
+            "type": "string"
+          },
+          "statusTransaction": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

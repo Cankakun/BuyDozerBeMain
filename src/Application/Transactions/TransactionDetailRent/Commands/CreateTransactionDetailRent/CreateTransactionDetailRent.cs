@@ -9,6 +9,7 @@ public record CreateTransactionDetailRentCommand : IRequest<object>
     // public required string TransactionNum { get; init; }
     public required string UnitId { get; init; }
     public required string UserId { get; init; }
+    public required string PriceListRentId { get; init; }
     public required string ReceiverName { get; init; }
     public required string ReceiverHp { get; init; }
     public required string ReceiverAddress { get; init; }
@@ -16,7 +17,6 @@ public record CreateTransactionDetailRentCommand : IRequest<object>
     public required DateOnly DateTransaction { get; init; }
     public required int StatusTransaction { get; init; }
     public required DateOnly DateRent { get; init; }
-    public required DateOnly DateReturn { get; init; }
 }
 public class CreateTransactionDetailRentCommandHandler : IRequestHandler<CreateTransactionDetailRentCommand, object>
 {
@@ -29,31 +29,30 @@ public class CreateTransactionDetailRentCommandHandler : IRequestHandler<CreateT
     public async Task<object> Handle(CreateTransactionDetailRentCommand request, CancellationToken cancellationToken)
     {
         DateTime now = DateTime.Now;
+        var priceListRent = await _context.PriceListRents.FindAsync(request.PriceListRentId);
         var heavyUnit = _context.HeavyUnits.Find(request.UnitId);
-        if (heavyUnit is not null)
+        if (heavyUnit is not null && priceListRent is not null)
         {
+            if (request.QtyTransaction > heavyUnit.QtyUnit || heavyUnit.QtyUnit == 0)
+            {
+                return new Response { Status = 400, Message = "Bad Request", Data = "Kuantitas Unit yang dipesan melebihi Unit yang tersedia!" };
+            }
+            decimal price = Convert.ToDecimal(request.QtyTransaction) * heavyUnit.PriceRentUnit;
             var transaction = new Transaction
             {
                 TransactionNum = "TRX" + now.ToString("yyyyMMddHHmmss"),
                 UnitId = request.UnitId,
                 UserId = request.UserId,
+                PriceListRentId = priceListRent.Id,
                 ReceiverName = request.ReceiverName,
                 ReceiverHp = request.ReceiverHp,
                 ReceiverAddress = request.ReceiverAddress,
                 QtyTransaction = request.QtyTransaction,
-                TotalPriceTransaction = Convert.ToDecimal(request.QtyTransaction) * heavyUnit.PriceRentUnit,
+                TotalPriceTransaction = price * priceListRent.PriceRentUnit + price,
                 DateTransaction = request.DateTransaction,
                 StatusTransaction = request.StatusTransaction,
-                DetailRents = new DetailRent { DateRent = request.DateRent, DateReturn = request.DateReturn }
+                DetailRents = new DetailRent { DateRent = request.DateRent, DateReturn = request.DateRent.AddMonths(priceListRent.Months) }
             };
-
-            // var detail = new DetailRent
-            // {
-            //     TransactionId = transaction.Id,
-            //     DateRent = request.DateRent,
-            //     DateReturn = request.DateReturn,
-
-            // };
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync(cancellationToken);
 

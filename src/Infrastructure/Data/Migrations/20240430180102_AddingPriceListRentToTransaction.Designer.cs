@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240314090247_ChangeConfigureTransactionAndPriceListRent")]
-    partial class ChangeConfigureTransactionAndPriceListRent
+    [Migration("20240430180102_AddingPriceListRentToTransaction")]
+    partial class AddingPriceListRentToTransaction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("TransactionId")
+                        .IsUnique()
+                        .HasFilter("[TransactionId] IS NOT NULL");
 
                     b.ToTable("DetailBuys");
                 });
@@ -59,7 +61,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("TransactionId")
+                        .IsUnique()
+                        .HasFilter("[TransactionId] IS NOT NULL");
 
                     b.ToTable("DetailRents");
                 });
@@ -120,7 +124,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("NameUnit")
+                    b.Property<string>("NameRent")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -152,6 +156,12 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentConfirmationReceipt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PriceListRentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("QtyTransaction")
                         .HasMaxLength(10)
@@ -185,13 +195,14 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UnitId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PriceListRentId");
 
                     b.HasIndex("UnitId");
 
@@ -209,15 +220,17 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyUser")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -229,24 +242,28 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("PositionUser")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -255,8 +272,9 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -265,8 +283,7 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -407,8 +424,8 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.DetailBuy", b =>
                 {
                     b.HasOne("BuyDozerBeMain.Domain.Entities.Transaction", "Transaction")
-                        .WithMany()
-                        .HasForeignKey("TransactionId");
+                        .WithOne("DetailBuy")
+                        .HasForeignKey("BuyDozerBeMain.Domain.Entities.DetailBuy", "TransactionId");
 
                     b.Navigation("Transaction");
                 });
@@ -416,23 +433,27 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.DetailRent", b =>
                 {
                     b.HasOne("BuyDozerBeMain.Domain.Entities.Transaction", "Transaction")
-                        .WithMany()
-                        .HasForeignKey("TransactionId");
+                        .WithOne("DetailRents")
+                        .HasForeignKey("BuyDozerBeMain.Domain.Entities.DetailRent", "TransactionId");
 
                     b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.Transaction", b =>
                 {
+                    b.HasOne("BuyDozerBeMain.Domain.Entities.PriceListRent", "PriceListRent")
+                        .WithMany()
+                        .HasForeignKey("PriceListRentId");
+
                     b.HasOne("BuyDozerBeMain.Domain.Entities.HeavyUnit", "Unit")
                         .WithMany()
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitId");
 
                     b.HasOne("BuyDozerBeMain.Domain.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("PriceListRent");
 
                     b.Navigation("Unit");
 
@@ -487,6 +508,15 @@ namespace BuyDozerBeMain.Infrastructure.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuyDozerBeMain.Domain.Entities.Transaction", b =>
+                {
+                    b.Navigation("DetailBuy")
+                        .IsRequired();
+
+                    b.Navigation("DetailRents")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -11,7 +11,7 @@ public class PriceListRentConfiguration : IEntityTypeConfiguration<PriceListRent
         builder.Property(t => t.PriceRentUnit)
             .HasColumnType("decimal(18,2)")
             .IsRequired();
-        builder.Property(t => t.NameUnit)
+        builder.Property(t => t.NameRent)
             .HasMaxLength(50)
             .IsRequired();
     }

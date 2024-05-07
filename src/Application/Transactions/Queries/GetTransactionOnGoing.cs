@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
-namespace BuyDozerBeMain.Application.Transactions.TransactionDetailBuy.Queries.GetTransactionDetailBuy;
+namespace BuyDozerBeMain.Application.Transactions.TransactionOnGoing.Queries.GetTransactionOnGoing;
 
-public record GetTransactionDetailBuy : IRequest<PaginatedList<TransactionDTO>>
+public record GetTransactionOnGoing : IRequest<PaginatedList<TransactionOnGoingDTO>>
 {
     public string? ParameterUserName { get; init; }
     public string? ParameterTransactionNumber { get; init; }
@@ -17,37 +17,31 @@ public record GetTransactionDetailBuy : IRequest<PaginatedList<TransactionDTO>>
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 1;
 };
-public class GetTransactionDetailBuyHandler : IRequestHandler<GetTransactionDetailBuy, PaginatedList<TransactionDTO>>
+public class GetTransactionOnGoingHandler : IRequestHandler<GetTransactionOnGoing, PaginatedList<TransactionOnGoingDTO>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public GetTransactionDetailBuyHandler(IApplicationDbContext context, IMapper mapper)
+    public GetTransactionOnGoingHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<TransactionDTO>> Handle(GetTransactionDetailBuy request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<TransactionOnGoingDTO>> Handle(GetTransactionOnGoing request, CancellationToken cancellationToken)
     {
         return request.SortDate ?
             await _context.Transactions
                 .AsNoTracking()
-                .Include(a => a.DetailBuy)
-                .Include(a => a.Unit)
-                .Include(a => a.User)
-                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.DetailRents == null || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.DetailRents == null)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.StatusTransaction == 1 || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.StatusTransaction == 1)
                 .OrderBy(a => a.Created)
-                .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
+                .ProjectTo<TransactionOnGoingDTO>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize) :
             await _context.Transactions
                 .AsNoTracking()
-                .Include(a => a.DetailBuy)
-                .Include(a => a.Unit)
-                .Include(a => a.User)
                 .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.DetailRents == null || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.DetailRents == null)
                 .OrderByDescending(a => a.Created)
-                .ProjectTo<TransactionDTO>(_mapper.ConfigurationProvider)
+                .ProjectTo<TransactionOnGoingDTO>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
 
     }
