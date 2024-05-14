@@ -62,7 +62,7 @@ public class CreateTransactionDetailRentCommandHandler : IRequestHandler<CreateT
                 {
                     Status = 200,
                     Message = "success",
-                    Data = _context.Transactions.Find(transaction.Id)
+                    Data = await _context.Transactions.FirstOrDefaultAsync(t => t.TransactionNum == transaction.TransactionNum)
                 };
                 // var jsonResult = JObject.Parse(JsonSerializer.Serialize(response));
                 // jsonResult.Add("DataDetail", JsonSerializer.Serialize(detail));
