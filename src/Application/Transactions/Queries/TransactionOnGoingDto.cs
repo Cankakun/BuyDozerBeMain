@@ -12,6 +12,7 @@ public class TransactionOnGoingDTO
     public string? ReceiverAddress { get; init; }
     public int QtyTransaction { get; init; }
     public decimal TotalPriceTransaction { get; init; }
+    public string? PaymentConfirmationReceipt { get; set; }
     public DateOnly DateTransaction { get; init; }
     public int StatusTransaction { get; init; }
     public DateTimeOffset Created { get; set; }

@@ -7,6 +7,7 @@ using BuyDozerBeMain.Application.Transactions.Commands.DeleteTransaction;
 using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.Transactions.TransactionDetailBuy.Queries.GetTransactionDetailBuy;
 using BuyDozerBeMain.Application.Transactions.Commands.UpdateStatusTransaction;
+using System.Text.Json.Serialization;
 
 namespace BuyDozerBeMain.Web.Endpoints;
 
@@ -33,14 +34,12 @@ public class TransactionDetailBuy : EndpointGroupBase
     public async Task<IResult> CreateTransactionDetailBuy(ISender sender, CreateTransactionDetailBuyCommand command)
     {
         MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
-        Response response = new Response
+        var response = await sender.Send(command);
+        var options = new JsonSerializerOptions
         {
-            Status = 200,
-            Message = "success",
-            Data = command
+            ReferenceHandler = ReferenceHandler.Preserve,
         };
-        await sender.Send(command);
-        return Results.Content(JsonSerializer.Serialize(response), mediaType.MediaType);
+        return Results.Content(JsonSerializer.Serialize(response, options), mediaType.MediaType);
     }
     public async Task<IResult> UpdateTransactionDetailBuy(ISender sender, string id, UpdateStatusTransactionCommand command)
     {

@@ -34,7 +34,7 @@ public class GetHeavyUnitsQueryHandler : IRequestHandler<GetHeavyUnitsQuery, Pag
                             .AsNoTracking()
                             .Where(x => EF.Functions.Like(x.NameUnit, request.ParameterUnit))
                             .ProjectTo<HeavyUnitDTO>(_mapper.ConfigurationProvider)
-                            .OrderBy(t => t.NameUnit)
+                            .OrderBy(t => t.PriceBuyUnit)
                             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
 

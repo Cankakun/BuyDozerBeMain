@@ -6,7 +6,7 @@ namespace BuyDozerBeMain.Application.PriceListRents.Commands.UpdatePriceListRent
 
 public record UpdatePriceListRentCommand : IRequest
 {
-    public required string Id { get; init; }
+    public required string Id { get; set; }
     public string? NameRent { get; init; }
     public decimal PriceRentUnit { get; init; }
     public int Months { get; init; }

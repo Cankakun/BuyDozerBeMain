@@ -5,8 +5,9 @@ public class TransactionDTO
 {
     public string? Id { get; init; }
     public string? TransactionNum { get; init; }
-    public HeavyUnit Unit { get; init; } = null!;
-    public UserEntity User { get; init; } = null!;
+    public string? NameUnit { get; init; } = null!;
+    public string? UserName { get; init; } = null!;
+    public decimal PriceBuyUnit { get; init; }
     public string? ReceiverName { get; init; }
     public string? ReceiverHp { get; init; }
     public string? ReceiverAddress { get; init; }
@@ -14,16 +15,18 @@ public class TransactionDTO
     public decimal TotalPriceTransaction { get; init; }
     public DateOnly DateTransaction { get; init; }
     public int StatusTransaction { get; init; }
-    public DetailBuy DetailBuy { get; set; } = null!;
+    public DateOnly DateBuy { get; set; }
     public DateTimeOffset Created { get; set; }
 
-    // public DetailRent DetailRents { get; init; } = null!;
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Transaction, TransactionDTO>();
-            // CreateMap<DetailRent, TransactionDTO>();
+            CreateMap<Transaction, TransactionDTO>()
+            .ForMember(d => d.NameUnit, opt => opt.MapFrom(src => src.Unit.NameUnit))
+            .ForMember(d => d.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(d => d.PriceBuyUnit, opt => opt.MapFrom(src => src.Unit.PriceBuyUnit))
+            .ForMember(d => d.DateBuy, opt => opt.MapFrom(src => src.DetailBuy.DateBuy));
         }
     }
 }
