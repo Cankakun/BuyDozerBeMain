@@ -15,13 +15,16 @@ public class TransactionOnGoingDTO
     public string? PaymentConfirmationReceipt { get; set; }
     public DateOnly DateTransaction { get; init; }
     public int StatusTransaction { get; init; }
+    public bool IsBuy { get; init; }
     public DateTimeOffset Created { get; set; }
 
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Transaction, TransactionOnGoingDTO>().ForMember(d => d.UserName, opt => opt.MapFrom(src => src.User.UserName));
+            CreateMap<Transaction, TransactionOnGoingDTO>()
+            .ForMember(d => d.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(d => d.IsBuy, opt => opt.MapFrom(src => src.DetailBuy != null && src.DetailRents == null ? true : src.DetailRents != null ? false : (bool?)null));
         }
     }
 }
