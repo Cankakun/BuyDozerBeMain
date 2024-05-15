@@ -1743,6 +1743,10 @@
             "type": "string",
             "nullable": true
           },
+          "typeUnit": {
+            "type": "string",
+            "nullable": true
+          },
           "userName": {
             "type": "string",
             "nullable": true
@@ -1885,6 +1889,10 @@
             "type": "string",
             "nullable": true
           },
+          "typeUnit": {
+            "type": "string",
+            "nullable": true
+          },
           "userName": {
             "type": "string",
             "nullable": true
@@ -1906,6 +1914,10 @@
             "nullable": true
           },
           "qtyTransaction": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "months": {
             "type": "integer",
             "format": "int32"
           },
@@ -2068,10 +2080,6 @@
           },
           "paymentConfirmationReceiptTransaction": {
             "type": "string"
-          },
-          "statusTransaction": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },

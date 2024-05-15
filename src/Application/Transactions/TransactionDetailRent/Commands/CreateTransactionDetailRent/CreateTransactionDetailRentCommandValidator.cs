@@ -1,6 +1,7 @@
 using BuyDozerBeMain.Application.Common.Interfaces;
 
 namespace BuyDozerBeMain.Application.Transactions.TransactionDetailRent.Commands.CreateTransactionDetailRent;
+
 public class CreateTransactionDetailRentCommandValidator : AbstractValidator<CreateTransactionDetailRentCommand>
 {
 
