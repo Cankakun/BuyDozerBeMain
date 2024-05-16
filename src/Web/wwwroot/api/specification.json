@@ -1885,6 +1885,10 @@
             "type": "string",
             "nullable": true
           },
+          "typeUnit": {
+            "type": "string",
+            "nullable": true
+          },
           "userName": {
             "type": "string",
             "nullable": true
@@ -2071,10 +2075,6 @@
           },
           "paymentConfirmationReceiptTransaction": {
             "type": "string"
-          },
-          "statusTransaction": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
