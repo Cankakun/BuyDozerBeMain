@@ -10,7 +10,6 @@ public record UpdatePaymentConfirmationReceiptTransactionCommand : IRequest<Resp
 {
     public required string Id { get; init; }
     public required string PaymentConfirmationReceiptTransaction { get; init; }
-    public required int StatusTransaction { get; init; }
 }
 
 public class UpdatePaymentConfirmationReceiptTransactionCommandHandler : IRequestHandler<UpdatePaymentConfirmationReceiptTransactionCommand, Response>
@@ -28,9 +27,8 @@ public class UpdatePaymentConfirmationReceiptTransactionCommandHandler : IReques
             .FindAsync(new object[] { request.Id }, cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);
-
         entity.PaymentConfirmationReceipt = request.PaymentConfirmationReceiptTransaction;
-        entity.StatusTransaction = request.StatusTransaction;
+        entity.StatusTransaction = request.PaymentConfirmationReceiptTransaction != null ? 2 : 0;
 
         await _context.SaveChangesAsync(cancellationToken);
         var response = new Response

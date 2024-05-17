@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
+  api:
+    image: buydozerbemain  # Ganti dengan nama image API Anda
+    container_name: net8api
+    build:
+      context: .
+      dockerfile: Dockerfile  # Pastikan Anda memiliki Dockerfile untuk API Anda
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - (localdb)\MSSQLLocalDB
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+
+volumes:
+  sqlserverdata:

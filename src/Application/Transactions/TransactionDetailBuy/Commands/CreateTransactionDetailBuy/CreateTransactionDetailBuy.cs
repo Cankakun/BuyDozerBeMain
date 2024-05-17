@@ -44,7 +44,7 @@ public class CreateTransactionDetailBuyCommandHandler : IRequestHandler<CreateTr
                 ReceiverHp = request.ReceiverHp,
                 ReceiverAddress = request.ReceiverAddress,
                 QtyTransaction = request.QtyTransaction,
-                TotalPriceTransaction = Convert.ToDecimal(request.QtyTransaction) * heavyUnit.PriceRentUnit,
+                TotalPriceTransaction = Convert.ToDecimal(request.QtyTransaction) * heavyUnit.PriceBuyUnit,
                 DateTransaction = request.DateTransaction,
                 StatusTransaction = request.StatusTransaction,
                 DetailBuy = new DetailBuy { DateBuy = request.TransactionDate }
