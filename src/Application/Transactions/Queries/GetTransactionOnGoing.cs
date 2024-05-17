@@ -13,7 +13,7 @@ public record GetTransactionOnGoing : IRequest<PaginatedList<TransactionOnGoingD
 {
     public string? ParameterUserName { get; init; }
     public string? ParameterTransactionNumber { get; init; }
-    public int? ParameterStatus { get; init; }
+    public string? ParameterStatus { get; init; }
     public bool SortDate { get; init; } = false;
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 1;
@@ -34,13 +34,13 @@ public class GetTransactionOnGoingHandler : IRequestHandler<GetTransactionOnGoin
         return request.SortDate ?
             await _context.Transactions
                 .AsNoTracking()
-                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.StatusTransaction == request.ParameterStatus || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.StatusTransaction == request.ParameterStatus)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && EF.Functions.Like(x.StatusTransaction.ToString(), request.ParameterStatus) || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && EF.Functions.Like(x.StatusTransaction.ToString(), request.ParameterStatus))
                 .OrderBy(a => a.Created)
                 .ProjectTo<TransactionOnGoingDTO>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize) :
             await _context.Transactions
                 .AsNoTracking()
-                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && x.StatusTransaction == request.ParameterStatus || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && x.StatusTransaction == request.ParameterStatus)
+                .Where(x => EF.Functions.Like(x.User.UserName, request.ParameterUserName) && EF.Functions.Like(x.StatusTransaction.ToString(), request.ParameterStatus) || EF.Functions.Like(x.TransactionNum, request.ParameterTransactionNumber) && EF.Functions.Like(x.StatusTransaction.ToString(), request.ParameterStatus))
                 .OrderByDescending(a => a.Created)
                 .ProjectTo<TransactionOnGoingDTO>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
