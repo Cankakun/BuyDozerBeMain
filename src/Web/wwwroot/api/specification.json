@@ -2021,6 +2021,18 @@
             "type": "string",
             "nullable": true
           },
+          "nameUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgUnit": {
+            "type": "string",
+            "nullable": true
+          },
           "userName": {
             "type": "string",
             "nullable": true
@@ -2063,6 +2075,16 @@
           "created": {
             "type": "string",
             "format": "date-time"
+          },
+          "dateRent": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "dateReturn": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
           }
         }
       },
