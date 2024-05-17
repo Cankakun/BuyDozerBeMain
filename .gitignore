@@ -480,4 +480,3 @@ $RECYCLE.BIN/
 *.swp
 
 .dockerignore
-Dockerfile
