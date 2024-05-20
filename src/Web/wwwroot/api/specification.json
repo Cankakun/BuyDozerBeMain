@@ -2052,6 +2052,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "months": {
+            "type": "integer",
+            "format": "int32"
+          },
           "totalPriceTransaction": {
             "type": "number",
             "format": "decimal"

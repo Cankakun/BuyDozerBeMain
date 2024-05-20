@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.Transactions.Commands.UpdatePaymentConfirmationReceiptTransaction;
+// using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
 using BuyDozerBeMain.Application.Transactions.TransactionOnGoing.Queries.GetTransactionOnGoing;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ public class TransactionOnGoing : EndpointGroupBase
         app.MapGroup(this)
             .RequireAuthorization()
             .MapGet(GetTransactionOnGoing, "GetTransactionOnGoing")
+            // .MapGet(GetTransactionReport, "GetTransactionReport")
             .MapPut(UpdatePaymentConfirmationReceiptTransaction, "UpdateTransactionOnGoing/{id}");
     }
 
@@ -29,6 +31,13 @@ public class TransactionOnGoing : EndpointGroupBase
     {
         return await sender.Send(query);
     }
+    // public async Task<Response> GetTransactionReport(ISender sender, GetTransactionReportQuery query)
+    // {
+    //     var result = await sender.Send(query);
+
+    //     return new Response { Status = 200, Message = "OK", Data = result };
+
+    // }
     public async Task<IResult> UpdatePaymentConfirmationReceiptTransaction(ISender sender, string id, UpdatePaymentConfirmationReceiptTransactionCommand command)
     {
         if (id != command.Id) return Results.BadRequest();
