@@ -14,6 +14,7 @@ public class TransactionDTO
     public string? ReceiverHp { get; init; }
     public string? ReceiverAddress { get; init; }
     public int QtyTransaction { get; init; }
+    public int Months { get; init; }
     public decimal TotalPriceTransaction { get; init; }
     public DateOnly DateTransaction { get; init; }
     public int StatusTransaction { get; init; }
@@ -29,6 +30,7 @@ public class TransactionDTO
             .ForMember(d => d.NameUnit, opt => opt.MapFrom(src => src.Unit.NameUnit))
             .ForMember(d => d.TypeUnit, opt => opt.MapFrom(src => src.Unit.TypeUnit))
             .ForMember(d => d.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(d => d.Months, opt => opt.MapFrom(src => src.PriceListRent.Months))
             .ForMember(d => d.PriceRentUnit, opt => opt.MapFrom(src => src.Unit.PriceRentUnit))
             .ForMember(d => d.DateRent, opt => opt.MapFrom(src => src.DetailRents.DateRent))
             .ForMember(d => d.DateReturn, opt => opt.MapFrom(src => src.DetailRents.DateReturn));
