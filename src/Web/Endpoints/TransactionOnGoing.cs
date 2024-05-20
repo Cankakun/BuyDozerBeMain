@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.Transactions.Commands.UpdatePaymentConfirmationReceiptTransaction;
+using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
+
 // using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
 using BuyDozerBeMain.Application.Transactions.TransactionOnGoing.Queries.GetTransactionOnGoing;
 using BuyDozerBeMain.Domain.Entities;
@@ -12,32 +14,18 @@ namespace BuyDozerBeMain.Web.Endpoints;
 
 public class TransactionOnGoing : EndpointGroupBase
 {
-    // private readonly IApplicationDbContext _context;
-    // public TransactionDetailRBuyTransactionDetailBuy(IApplicationDbContext context)
-    // {
-    //     _context = context;
-    // }
-
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
             .RequireAuthorization()
             .MapGet(GetTransactionOnGoing, "GetTransactionOnGoing")
-            // .MapGet(GetTransactionReport, "GetTransactionReport")
             .MapPut(UpdatePaymentConfirmationReceiptTransaction, "UpdateTransactionOnGoing/{id}");
     }
 
-    public async Task<PaginatedList<TransactionOnGoingDTO>> GetTransactionOnGoing(ISender sender, [AsParameters] GetTransactionOnGoing query)
+    public async Task<PaginatedList<TransactionOnGoingDTO>> GetTransactionOnGoing(ISender sender)
     {
-        return await sender.Send(query);
+        return await sender.Send(new GetTransactionOnGoing());
     }
-    // public async Task<Response> GetTransactionReport(ISender sender, GetTransactionReportQuery query)
-    // {
-    //     var result = await sender.Send(query);
-
-    //     return new Response { Status = 200, Message = "OK", Data = result };
-
-    // }
     public async Task<IResult> UpdatePaymentConfirmationReceiptTransaction(ISender sender, string id, UpdatePaymentConfirmationReceiptTransactionCommand command)
     {
         if (id != command.Id) return Results.BadRequest();

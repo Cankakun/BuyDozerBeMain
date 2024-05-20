@@ -2,12 +2,14 @@ using System.Text.Json;
 using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Mappings;
 using BuyDozerBeMain.Application.Common.Models;
+using BuyDozerBeMain.Application.Common.Security;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
 namespace BuyDozerBeMain.Application.Transactions.TransactionOnGoing.Queries.GetTransactionOnGoing;
+[Authorize]
 
 public record GetTransactionOnGoing : IRequest<PaginatedList<TransactionOnGoingDTO>>
 {
