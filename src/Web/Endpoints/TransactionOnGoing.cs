@@ -22,9 +22,9 @@ public class TransactionOnGoing : EndpointGroupBase
             .MapPut(UpdatePaymentConfirmationReceiptTransaction, "UpdateTransactionOnGoing/{id}");
     }
 
-    public async Task<PaginatedList<TransactionOnGoingDTO>> GetTransactionOnGoing(ISender sender)
+    public async Task<PaginatedList<TransactionOnGoingDTO>> GetTransactionOnGoing(ISender sender, [AsParameters] GetTransactionOnGoing query)
     {
-        return await sender.Send(new GetTransactionOnGoing());
+        return await sender.Send(query);
     }
     public async Task<IResult> UpdatePaymentConfirmationReceiptTransaction(ISender sender, string id, UpdatePaymentConfirmationReceiptTransactionCommand command)
     {
