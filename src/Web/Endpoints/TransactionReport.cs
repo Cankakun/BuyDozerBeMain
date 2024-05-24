@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.Transactions.Commands.UpdatePaymentConfirmationReceiptTransaction;
+using BuyDozerBeMain.Application.Transactions.Report.GetUnitRemaining;
+using BuyDozerBeMain.Application.Transactions.Report.SummaryTransactionStatus;
 using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
 
 // using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
@@ -18,13 +20,31 @@ public class TransactionReport : EndpointGroupBase
     {
         app.MapGroup(this)
             .RequireAuthorization()
-            .MapGet(GetTransactionReport, "GetTransactionReport");
+            .MapGet(GetTransactionReport, "GetTransactionReport")
+            .MapGet(GetUserTransactionType, "GetUserTransactionType")
+            .MapGet(GetSummaryTransactionStatus, "GetSummaryTransactionStatus")
+            .MapGet(GetUnitRemaining, "GetUnitRemaining");
     }
 
 
     public async Task<List<TransactionReportDto>> GetTransactionReport(ISender sender)
     {
         return await sender.Send(new GetTransactionReportQuery());
+
+    }
+    public async Task<UnitRemainingVm> GetUnitRemaining(ISender sender)
+    {
+        return await sender.Send(new GetUnitRemainingQuery());
+
+    }
+    public async Task<List<UserTransactionTypeDto>> GetUserTransactionType(ISender sender)
+    {
+        return await sender.Send(new GetUserTransactionTypeQuery());
+
+    }
+    public async Task<List<SummaryTransactionStatusDto>> GetSummaryTransactionStatus(ISender sender)
+    {
+        return await sender.Send(new GetSummaryTransactionStatusQuery());
 
     }
 }

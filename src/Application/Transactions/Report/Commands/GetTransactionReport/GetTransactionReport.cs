@@ -21,7 +21,7 @@ public class GetTransactionReportQueryHandler : IRequestHandler<GetTransactionRe
         var result = await _context.Transactions
             .GroupBy(t => t.DateTransaction.Month)
             .Select(g => new TransactionReportDto
-            {
+            {   
                 MonthTransaction = g.Key,
                 TransaksiSewa = g.Select(t => t.DetailRents).Where(t => t.TransactionId != null).Count(),
                 TransaksiBeli = g.Select(t => t.DetailBuy).Where(t => t.TransactionId != null).Count(),

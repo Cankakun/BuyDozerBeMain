@@ -846,6 +846,87 @@
         ]
       }
     },
+    "/api/TransactionReport/GetUserTransactionType": {
+      "get": {
+        "tags": [
+          "TransactionReport"
+        ],
+        "operationId": "GetUserTransactionType",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTransactionTypeDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionReport/GetSummaryTransactionStatus": {
+      "get": {
+        "tags": [
+          "TransactionReport"
+        ],
+        "operationId": "GetSummaryTransactionStatus",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SummaryTransactionStatusDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/TransactionReport/GetUnitRemaining": {
+      "get": {
+        "tags": [
+          "TransactionReport"
+        ],
+        "operationId": "GetUnitRemaining",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitRemainingVm"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/Users/register": {
       "post": {
         "tags": [
@@ -2152,6 +2233,80 @@
             "format": "int32"
           },
           "transaksi": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UserTransactionTypeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "buyCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rentCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bothCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SummaryTransactionStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "transactionRejected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionOnGoing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionPaid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionFinish": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UnitRemainingVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UnitRemainingDto"
+            }
+          }
+        }
+      },
+      "UnitRemainingDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unitRented": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unitBuyed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unitFree": {
             "type": "integer",
             "format": "int32"
           }
