@@ -38,7 +38,11 @@ public class LoginUserEntityCommandHandler : IRequestHandler<LoginUserEntityComm
             if (validCredentials == true)
             {
                 bool isAdmin = await _userManager.IsInRoleAsync(user, "administrator");
-                var client = new HttpClient();
+                var handler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+                };
+                var client = new HttpClient(handler);
                 var response = await client.PostAsJsonAsync("https://localhost:5001/api/Users/login", login);
                 string result = response.Content.ReadAsStringAsync().Result;
                 JObject jsonResult = JObject.Parse(result);
