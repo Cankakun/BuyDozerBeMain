@@ -902,6 +902,34 @@
         ]
       }
     },
+    "/api/TransactionReport/GetReportCard": {
+      "get": {
+        "tags": [
+          "TransactionReport"
+        ],
+        "operationId": "GetReportCard",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportCardDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/TransactionReport/GetUnitRemaining": {
       "get": {
         "tags": [
@@ -2277,6 +2305,28 @@
             "format": "int32"
           },
           "transactionFinish": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ReportCardDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "buyTransactionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rentTransactionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unitCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userCount": {
             "type": "integer",
             "format": "int32"
           }

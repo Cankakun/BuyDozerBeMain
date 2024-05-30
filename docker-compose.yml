@@ -1,30 +1,53 @@
-version: '3.8'
-
-services:
-  sqlserver: 
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sqlserver
-    environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-    volumes:
-      - sqlserverdata:/var/opt/mssql
-
-  api:
-    image: buydozerbemain  # Ganti dengan nama image API Anda
-    container_name: net8api
-    build:
-      context: .
-      dockerfile: Dockerfile  # Pastikan Anda memiliki Dockerfile untuk API Anda
+﻿services:
+  buydozerbemain.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver\\mssqllocaldb;Database=BuyDozerBeMainDb;Trusted_Connection=True;MultipleActiveResultSets=true
+      - ASPNETCORE_HTTP_PORTS=3000
+      - ASPNETCORE_HTTPS_PORTS=3001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/buydozer.pfx
+      - ConnectionStrings__DefaultConnection=Server=buydozerdb,1433;Database=BuyDozerBeMainDb;User Id=SA;Password=SuperPassword123;TrustServerCertificate=True;
+    container_name: buydozerbemain.api
+    image: buydozerbemain.api
+    build:
+      context: .
+      dockerfile: src/Web/Dockerfile
     ports:
-      - "5000:80"
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ~/.aspnet/https:/https:ro
     depends_on:
-      - sqlserver
-
-volumes:
-  sqlserverdata:
+      buydozerdb:
+        condition: service_healthy
+  
+  buydozerdb:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: buydozerdb
+    user: "root"
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=SuperPassword123
+    volumes:
+      - ./sqlserver/data:/var/opt/mssql/data
+      - ./sqlserver/log:/var/opt/mssql/log
+        
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "SuperPassword123" -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+      
+  buydozerbemain.client:
+    build:
+      context: src/Web/Client/BuyDozerFE/BuydozerAdmin
+      dockerfile: Dockerfile
+    image: buydozerbemain.client
+    container_name: buydozerbemain.client
+    ports:
+      - "2005:2005"
+    depends_on: 
+      - buydozerbemain.api

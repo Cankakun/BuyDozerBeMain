@@ -2,7 +2,7 @@ using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.Transactions.Report.SummaryTransactionStatus;
-[Authorize]
+[Authorize(Roles = "Administrator")]
 public record GetSummaryTransactionStatusQuery : IRequest<List<SummaryTransactionStatusDto>>;
 
 public class GetSummaryTransactionStatusQueryHandler : IRequestHandler<GetSummaryTransactionStatusQuery, List<SummaryTransactionStatusDto>>

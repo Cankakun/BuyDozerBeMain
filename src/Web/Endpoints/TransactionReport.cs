@@ -4,10 +4,10 @@ using System.Text.Json;
 using BuyDozerBeMain.Application.Common.Models;
 using BuyDozerBeMain.Application.Transactions.Commands.UpdatePaymentConfirmationReceiptTransaction;
 using BuyDozerBeMain.Application.Transactions.Report.GetUnitRemaining;
+using BuyDozerBeMain.Application.Transactions.Report.ReportCard;
 using BuyDozerBeMain.Application.Transactions.Report.SummaryTransactionStatus;
 using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
 
-// using BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
 using BuyDozerBeMain.Application.Transactions.TransactionOnGoing.Queries.GetTransactionOnGoing;
 using BuyDozerBeMain.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +23,7 @@ public class TransactionReport : EndpointGroupBase
             .MapGet(GetTransactionReport, "GetTransactionReport")
             .MapGet(GetUserTransactionType, "GetUserTransactionType")
             .MapGet(GetSummaryTransactionStatus, "GetSummaryTransactionStatus")
+            .MapGet(GetReportCard, "GetReportCard")
             .MapGet(GetUnitRemaining, "GetUnitRemaining");
     }
 
@@ -45,6 +46,11 @@ public class TransactionReport : EndpointGroupBase
     public async Task<List<SummaryTransactionStatusDto>> GetSummaryTransactionStatus(ISender sender)
     {
         return await sender.Send(new GetSummaryTransactionStatusQuery());
+
+    }
+    public async Task<List<ReportCardDto>> GetReportCard(ISender sender)
+    {
+        return await sender.Send(new GetReportCardQuery());
 
     }
 }

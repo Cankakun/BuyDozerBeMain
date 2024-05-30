@@ -2,7 +2,7 @@ using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.Transactions.Report.GetUnitRemaining;
-[Authorize]
+[Authorize(Roles = "Administrator")]
 public record GetUserTransactionTypeQuery : IRequest<List<UserTransactionTypeDto>>;
 
 public class GetUserTransactionTypeQueryHandler : IRequestHandler<GetUserTransactionTypeQuery, List<UserTransactionTypeDto>>
@@ -35,16 +35,6 @@ public class GetUserTransactionTypeQueryHandler : IRequestHandler<GetUserTransac
                        _context.Transactions.Any(t => t.UserId == u.Id &&
                        _context.DetailBuys.Any(db => db.TransactionId == t.Id)))
                    select usr;
-
-        // var both = _context.UserEntitys
-        //         .Where(usr =>
-        //             _context.UserEntitys.Any(u =>
-        //                 _context.Transactions.Any(t => t.UserId == u.Id &&
-        //                     _context.DetailRents.Any(dr => dr.TransactionId == t.Id))) &&
-        //             _context.UserEntitys.Any(u =>
-        //                 _context.Transactions.Any(t => t.UserId == u.Id &&
-        //                     _context.DetailBuys.Any(db => db.TransactionId == t.Id))))
-        //         .Count();
 
         var usersWithRent = _context.UserEntitys
                 .Where(usr => _context.Transactions
