@@ -2,7 +2,7 @@ using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.Transactions.Report.TransactionReport;
-[Authorize]
+[Authorize(Roles = "Administrator")]
 public record GetTransactionReportQuery : IRequest<List<TransactionReportDto>>;
 
 public class GetTransactionReportQueryHandler : IRequestHandler<GetTransactionReportQuery, List<TransactionReportDto>>

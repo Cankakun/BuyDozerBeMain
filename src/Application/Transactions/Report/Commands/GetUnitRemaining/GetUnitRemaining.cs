@@ -2,7 +2,7 @@ using BuyDozerBeMain.Application.Common.Interfaces;
 using BuyDozerBeMain.Application.Common.Security;
 
 namespace BuyDozerBeMain.Application.Transactions.Report.GetUnitRemaining;
-[Authorize]
+[Authorize(Roles = "Administrator")]
 public record GetUnitRemainingQuery : IRequest<UnitRemainingVm>;
 
 public class GetUnitRemainingQueryHandler : IRequestHandler<GetUnitRemainingQuery, UnitRemainingVm>
@@ -31,10 +31,6 @@ public class GetUnitRemainingQueryHandler : IRequestHandler<GetUnitRemainingQuer
                     UnitFree = free
                 }
             ]
-            // return
-            // UnitBuyed = buy,
-            // UnitRented = rent,
-            // UnitFree = free
         };
     }
 }
